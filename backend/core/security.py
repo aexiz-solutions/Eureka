@@ -25,11 +25,18 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
 
-def _create_token(subject: str, role: str, token_type: str, expires_delta: timedelta) -> str:
+def _create_token(
+    subject: str,
+    role: str,
+    subscription_tier: str,
+    token_type: str,
+    expires_delta: timedelta,
+) -> str:
     now = datetime.now(timezone.utc)
     payload = {
         "sub": subject,
         "role": role,
+        "subscription_tier": subscription_tier,
         "token_type": token_type,
         "iat": int(now.timestamp()),
         "exp": now + expires_delta,
@@ -38,19 +45,21 @@ def _create_token(subject: str, role: str, token_type: str, expires_delta: timed
     return jwt.encode(payload, settings.secret_key, algorithm=ALGORITHM)
 
 
-def create_access_token(subject: str, role: str) -> str:
+def create_access_token(subject: str, role: str, subscription_tier: str) -> str:
     return _create_token(
         subject=subject,
         role=role,
+        subscription_tier=subscription_tier,
         token_type="access",
         expires_delta=timedelta(minutes=settings.access_token_expire_minutes),
     )
 
 
-def create_refresh_token(subject: str, role: str) -> str:
+def create_refresh_token(subject: str, role: str, subscription_tier: str) -> str:
     return _create_token(
         subject=subject,
         role=role,
+        subscription_tier=subscription_tier,
         token_type="refresh",
         expires_delta=timedelta(days=settings.refresh_token_expire_days),
     )

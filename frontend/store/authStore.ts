@@ -4,12 +4,15 @@ import { create } from "zustand";
 
 import { api } from "@/lib/api";
 
-type UserRole = "admin" | "merchandiser" | "viewer";
+type UserRole = "admin" | "merchandiser" | "merchandiser-pro" | "enterprise";
+type SubscriptionTier = "admin" | "individual-plus" | "individual-pro" | "enterprise";
+type LoginMode = "admin" | "individual plus" | "individual pro" | "enterprise";
 
 export interface User {
   id: string;
   email: string;
   role: UserRole;
+  subscription_tier: SubscriptionTier;
   created_at: string;
 }
 
@@ -36,8 +39,13 @@ interface RefreshRequest {
 interface AuthStore {
   user: User | null;
   token: string | null;
-  login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, role?: UserRole) => Promise<void>;
+  login: (email: string, password: string, loginAs?: LoginMode) => Promise<void>;
+  register: (
+    email: string,
+    password: string,
+    role?: UserRole,
+    subscriptionTier?: SubscriptionTier,
+  ) => Promise<void>;
   logout: () => void;
   refreshToken: () => Promise<void>;
   initializeAuth: () => void;
@@ -66,10 +74,11 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   user: null,
   token: null,
 
-  login: async (email: string, password: string): Promise<void> => {
+  login: async (email: string, password: string, loginAs?: LoginMode): Promise<void> => {
     const response = await api.post<AuthApiResponse>("/api/v1/auth/login", {
       email,
       password,
+      login_as: loginAs,
     });
 
     const authData = response.data.data;
@@ -81,11 +90,17 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     });
   },
 
-  register: async (email: string, password: string, role: UserRole = "merchandiser"): Promise<void> => {
+  register: async (
+    email: string,
+    password: string,
+    role: UserRole = "merchandiser",
+    subscriptionTier?: SubscriptionTier,
+  ): Promise<void> => {
     const response = await api.post<AuthApiResponse>("/api/v1/auth/register", {
       email,
       password,
       role,
+      subscription_tier: subscriptionTier,
     });
 
     const authData = response.data.data;

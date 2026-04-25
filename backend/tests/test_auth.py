@@ -16,9 +16,28 @@ async def test_register_success(client):
     assert response.status_code == 201
     body = response.json()
     assert body["data"]["user"]["email"] == payload["email"]
+    assert body["data"]["user"]["role"] == "merchandiser"
+    assert body["data"]["user"]["subscription_tier"] == "individual-plus"
     assert body["data"]["tokens"]["token_type"] == "bearer"
     assert body["data"]["tokens"]["access_token"]
     assert body["data"]["tokens"]["refresh_token"]
+
+
+@pytest.mark.anyio
+async def test_register_admin_persists_admin_tier(client):
+    payload = {
+        "email": "admin-user@example.com",
+        "password": "password123",
+        "role": "admin",
+        "subscription_tier": "admin",
+    }
+
+    response = await client.post("/api/v1/auth/register", json=payload)
+
+    assert response.status_code == 201
+    body = response.json()
+    assert body["data"]["user"]["role"] == "admin"
+    assert body["data"]["user"]["subscription_tier"] == "admin"
 
 
 @pytest.mark.anyio
@@ -56,7 +75,55 @@ async def test_login_success(client):
     assert login_response.status_code == 200
     body = login_response.json()
     assert body["data"]["user"]["email"] == email
+    assert body["data"]["user"]["subscription_tier"] == "individual-plus"
     assert body["data"]["tokens"]["access_token"]
+
+
+@pytest.mark.anyio
+async def test_login_with_wrong_login_mode_returns_account_mismatch(client):
+    email = f"{uuid.uuid4()}@example.com"
+    await client.post(
+        "/api/v1/auth/register",
+        json={
+            "email": email,
+            "password": "password123",
+            "role": "merchandiser",
+            "subscription_tier": "individual-plus",
+        },
+    )
+
+    response = await client.post(
+        "/api/v1/auth/login",
+        json={"email": email, "password": "password123", "login_as": "admin"},
+    )
+
+    assert response.status_code == 403
+    body = response.json()
+    assert body["error"] == "account_type_mismatch"
+
+
+@pytest.mark.anyio
+async def test_login_with_matching_login_mode_succeeds(client):
+    email = f"{uuid.uuid4()}@example.com"
+    await client.post(
+        "/api/v1/auth/register",
+        json={
+            "email": email,
+            "password": "password123",
+            "role": "admin",
+            "subscription_tier": "admin",
+        },
+    )
+
+    response = await client.post(
+        "/api/v1/auth/login",
+        json={"email": email, "password": "password123", "login_as": "admin"},
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["data"]["user"]["role"] == "admin"
+    assert body["data"]["user"]["subscription_tier"] == "admin"
 
 
 @pytest.mark.anyio
