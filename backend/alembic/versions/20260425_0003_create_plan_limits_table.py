@@ -7,14 +7,7 @@ Create Date: 2026-04-25 00:00:02
 
 from alembic import op
 import sqlalchemy as sa
-
-from core.constants import (
-    DEFAULT_PLAN_LIMITS,
-    TIER_ADMIN,
-    TIER_ENTERPRISE,
-    TIER_INDIVIDUAL_PLUS,
-    TIER_INDIVIDUAL_PRO,
-)
+import uuid
 
 
 # revision identifiers, used by Alembic.
@@ -40,6 +33,7 @@ def upgrade() -> None:
 
     plan_limit_table = sa.table(
         "plan_limits",
+        sa.column("id", sa.Uuid()),
         sa.column("tier", sa.String()),
         sa.column("annual_planogram_limit", sa.Integer()),
         sa.column("is_unlimited", sa.Boolean()),
@@ -49,23 +43,27 @@ def upgrade() -> None:
         plan_limit_table,
         [
             {
-                "tier": TIER_ADMIN,
-                "annual_planogram_limit": DEFAULT_PLAN_LIMITS[TIER_ADMIN],
+                "id": uuid.uuid4(),
+                "tier": "admin",
+                "annual_planogram_limit": None,
                 "is_unlimited": True,
             },
             {
-                "tier": TIER_INDIVIDUAL_PLUS,
-                "annual_planogram_limit": DEFAULT_PLAN_LIMITS[TIER_INDIVIDUAL_PLUS],
+                "id": uuid.uuid4(),
+                "tier": "individual-plus",
+                "annual_planogram_limit": 15,
                 "is_unlimited": False,
             },
             {
-                "tier": TIER_INDIVIDUAL_PRO,
-                "annual_planogram_limit": DEFAULT_PLAN_LIMITS[TIER_INDIVIDUAL_PRO],
+                "id": uuid.uuid4(),
+                "tier": "individual-pro",
+                "annual_planogram_limit": 45,
                 "is_unlimited": False,
             },
             {
-                "tier": TIER_ENTERPRISE,
-                "annual_planogram_limit": DEFAULT_PLAN_LIMITS[TIER_ENTERPRISE],
+                "id": uuid.uuid4(),
+                "tier": "enterprise",
+                "annual_planogram_limit": None,
                 "is_unlimited": True,
             },
         ],

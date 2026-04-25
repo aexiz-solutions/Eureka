@@ -21,3 +21,9 @@ async def ensure_default_plan_limits(db: AsyncSession) -> None:
         ],
     )
     await db.commit()
+
+
+async def get_plan_limit_for_tier(db: AsyncSession, tier: str) -> PlanLimit | None:
+    await ensure_default_plan_limits(db)
+    result = await db.execute(select(PlanLimit).where(PlanLimit.tier == tier))
+    return result.scalar_one_or_none()
