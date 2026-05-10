@@ -72,7 +72,7 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-50 p-6">
+    <main className="flex min-h-screen items-center justify-center bg-[var(--color-bg-subtle)] p-6">
       <AuthCard
         title="Welcome Back"
         subtitle="Sign in after your onboarding request is approved."
@@ -80,7 +80,10 @@ export default function LoginPage() {
         footer={
           <>
             New to Eureka?{" "}
-            <Link href="/register" className="font-semibold text-pink-600 underline-offset-4 hover:underline">
+            <Link
+              href="/register"
+              className="font-semibold text-[var(--color-blue-600)] underline-offset-4 hover:underline"
+            >
               Create an account
             </Link>
           </>
@@ -90,13 +93,13 @@ export default function LoginPage() {
         error={error}
       >
         {approvalInfo ? (
-          <p className="rounded border border-yellow-300 bg-yellow-50 px-3 py-2 text-sm text-yellow-800">
+          <p className="rounded border border-[var(--color-status-yellow-text)] bg-[var(--color-status-yellow-bg)] px-3 py-2 text-sm text-[var(--color-status-yellow-text)]">
             {approvalInfo}
           </p>
         ) : null}
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-ink" htmlFor="email">
+          <label className="mb-1 block text-sm font-medium text-[var(--color-text-primary)]" htmlFor="email">
             Email
           </label>
           <input
@@ -105,12 +108,12 @@ export default function LoginPage() {
             required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            className="w-full rounded-lg border border-ink/20 px-3 py-2 outline-none ring-pink-200 transition focus:ring"
+            className="w-full rounded-lg border border-[var(--color-border)] px-3 py-2 outline-none transition focus:border-[var(--color-blue-600)] focus:ring focus:ring-[var(--color-blue-100)]"
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-ink" htmlFor="password">
+          <label className="mb-1 block text-sm font-medium text-[var(--color-text-primary)]" htmlFor="password">
             Password
           </label>
           <input
@@ -120,7 +123,7 @@ export default function LoginPage() {
             minLength={8}
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="w-full rounded-lg border border-ink/20 px-3 py-2 outline-none ring-pink-200 transition focus:ring"
+            className="w-full rounded-lg border border-[var(--color-border)] px-3 py-2 outline-none transition focus:border-[var(--color-blue-600)] focus:ring focus:ring-[var(--color-blue-100)]"
           />
         </div>
       </AuthCard>

@@ -12,9 +12,9 @@ interface ImportHistoryProps {
 }
 
 const STATUS_STYLES: Record<ImportLogResponse["status"], string> = {
-  completed: "bg-green-100 text-green-700",
-  partial: "bg-yellow-100 text-yellow-800",
-  failed: "bg-red-100 text-red-700",
+  completed: "bg-[var(--color-status-green-bg)] text-[var(--color-status-green-text)]",
+  partial: "bg-[var(--color-status-yellow-bg)] text-[var(--color-status-yellow-text)]",
+  failed: "bg-[var(--color-status-red-bg)] text-[var(--color-status-red-text)]",
 };
 
 const FORMAT_LABELS: Record<ImportLogResponse["file_format"], string> = {
@@ -65,23 +65,27 @@ export default function ImportHistory({ title, fetchUrl }: ImportHistoryProps) {
   );
 
   if (loading) {
-    return <p className="text-sm text-ink/60">Loading import history...</p>;
+    return <p className="text-sm text-[var(--color-text-secondary)]">Loading import history...</p>;
   }
 
   if (error) {
-    return <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>;
+    return (
+      <p className="rounded-lg bg-[var(--color-status-red-bg)] px-3 py-2 text-sm text-[var(--color-status-red-text)]">
+        {error}
+      </p>
+    );
   }
 
   if (!hasRows) {
-    return <p className="text-sm text-ink/60">No imports recorded yet.</p>;
+    return <p className="text-sm text-[var(--color-text-secondary)]">No imports recorded yet.</p>;
   }
 
   return (
-    <section className="rounded-2xl border border-ink/10 bg-white/95 p-6 shadow">
-      <h3 className="text-lg font-semibold text-ink">{title}</h3>
+    <section className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
+      <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">{title}</h3>
       <div className="mt-4 overflow-x-auto">
         <table className="w-full min-w-[760px] text-left text-sm">
-          <thead className="bg-ink/5 text-xs uppercase tracking-widest text-ink/60">
+          <thead className="bg-[var(--color-bg-muted)] text-xs uppercase tracking-widest text-[var(--color-text-secondary)]">
             <tr>
               <th className="px-3 py-2">Date</th>
               <th className="px-3 py-2">File</th>
@@ -99,16 +103,20 @@ export default function ImportHistory({ title, fetchUrl }: ImportHistoryProps) {
               return (
                 <Fragment key={row.id}>
                   <tr
-                    className="border-t border-ink/10 hover:bg-ink/5"
+                    className="border-t border-[var(--color-border)] hover:bg-[var(--color-bg-muted)]"
                     onClick={() => setExpandedId(isExpanded ? null : row.id)}
                   >
-                    <td className="px-3 py-3 text-ink/70">{formatDate(row.imported_at)}</td>
-                    <td className="px-3 py-3 font-semibold text-ink">{row.original_filename}</td>
-                    <td className="px-3 py-3 text-ink/70">{FORMAT_LABELS[row.file_format]}</td>
-                    <td className="px-3 py-3 text-ink/70">{row.import_type}</td>
-                    <td className="px-3 py-3 text-ink/70">{row.total_rows}</td>
-                    <td className="px-3 py-3 text-ink/70">{row.success_count}</td>
-                    <td className="px-3 py-3 text-ink/70">{row.error_count}</td>
+                    <td className="px-3 py-3 text-[var(--color-text-secondary)]">{formatDate(row.imported_at)}</td>
+                    <td className="px-3 py-3 font-semibold text-[var(--color-text-primary)]">
+                      {row.original_filename}
+                    </td>
+                    <td className="px-3 py-3 text-[var(--color-text-secondary)]">
+                      {FORMAT_LABELS[row.file_format]}
+                    </td>
+                    <td className="px-3 py-3 text-[var(--color-text-secondary)]">{row.import_type}</td>
+                    <td className="px-3 py-3 text-[var(--color-text-secondary)]">{row.total_rows}</td>
+                    <td className="px-3 py-3 text-[var(--color-text-secondary)]">{row.success_count}</td>
+                    <td className="px-3 py-3 text-[var(--color-text-secondary)]">{row.error_count}</td>
                     <td className="px-3 py-3">
                       <span className={`rounded-full px-3 py-1 text-xs font-semibold ${STATUS_STYLES[row.status]}`}>
                         {row.status}
@@ -116,11 +124,13 @@ export default function ImportHistory({ title, fetchUrl }: ImportHistoryProps) {
                     </td>
                   </tr>
                   {isExpanded ? (
-                    <tr className="border-t border-ink/10 bg-ink/5">
-                      <td colSpan={8} className="px-4 py-3 text-sm text-ink/70">
+                    <tr className="border-t border-[var(--color-border)] bg-[var(--color-bg-muted)]">
+                      <td colSpan={8} className="px-4 py-3 text-sm text-[var(--color-text-secondary)]">
                         {row.error_detail && row.error_detail.length > 0 ? (
                           <div className="space-y-2">
-                            <p className="text-xs uppercase tracking-widest text-ink/50">Errors</p>
+                            <p className="text-xs uppercase tracking-widest text-[var(--color-text-secondary)]">
+                              Errors
+                            </p>
                             <ul className="space-y-1">
                               {row.error_detail.map((errorRow) => (
                                 <li key={`${row.id}-${errorRow.row}-${errorRow.reason}`}>

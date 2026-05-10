@@ -9,6 +9,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["DM Sans", "Segoe UI", "system-ui", "sans-serif"],
+        mono: ["JetBrains Mono", "monospace"],
+      },
       colors: {
         canvas: "#f6f7f8",
         ink: "#11201b",

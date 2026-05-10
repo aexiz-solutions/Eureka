@@ -79,42 +79,42 @@ export default function NewStoreModal({ isOpen, onClose, onCreated }: NewStoreMo
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-4 backdrop-blur-sm">
-      <div className="w-full max-w-lg rounded-2xl border border-ink/10 bg-white p-6 shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
+      <div className="w-full max-w-lg rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-2xl">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-ink/50">New Store</p>
-            <h2 className="mt-2 text-2xl font-semibold text-ink">Create a fresh space</h2>
+            <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">New Store</p>
+            <h2 className="mt-2 text-2xl font-semibold text-[var(--color-text-primary)]">Create a fresh space</h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-ink/10 px-3 py-1 text-sm text-ink/70 transition hover:border-ink/30"
+            className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm text-[var(--color-text-secondary)] transition hover:border-[var(--color-blue-600)]"
           >
             Close
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-          <label className="block text-sm text-ink/70">
+          <label className="block text-sm text-[var(--color-text-secondary)]">
             Store name
             <input
               type="text"
               required
               value={form.name}
               onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))}
-              className="mt-2 w-full rounded-xl border border-ink/15 bg-white px-4 py-3 text-ink outline-none transition focus:border-pine/50 focus:ring-2 focus:ring-pine/20"
+              className="mt-2 w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-[var(--color-text-primary)] outline-none transition focus:border-[var(--color-blue-600)] focus:ring-2 focus:ring-[var(--color-blue-100)]"
             />
           </label>
 
-          <label className="block text-sm text-ink/70">
+          <label className="block text-sm text-[var(--color-text-secondary)]">
             Store type
             <select
               value={form.store_type}
               onChange={(event) =>
                 setForm((prev) => ({ ...prev, store_type: event.target.value as StoreType }))
               }
-              className="mt-2 w-full rounded-xl border border-ink/15 bg-white px-4 py-3 text-ink outline-none transition focus:border-pine/50 focus:ring-2 focus:ring-pine/20"
+              className="mt-2 w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-[var(--color-text-primary)] outline-none transition focus:border-[var(--color-blue-600)] focus:ring-2 focus:ring-[var(--color-blue-100)]"
             >
               <option value="supermarket">Supermarket</option>
               <option value="convenience">Convenience</option>
@@ -123,7 +123,7 @@ export default function NewStoreModal({ isOpen, onClose, onCreated }: NewStoreMo
           </label>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            <label className="block text-sm text-ink/70">
+            <label className="block text-sm text-[var(--color-text-secondary)]">
               Width (m)
               <input
                 type="number"
@@ -131,10 +131,10 @@ export default function NewStoreModal({ isOpen, onClose, onCreated }: NewStoreMo
                 max={1000}
                 value={form.width_m}
                 onChange={(event) => setForm((prev) => ({ ...prev, width_m: event.target.valueAsNumber }))}
-                className="mt-2 w-full rounded-xl border border-ink/15 bg-white px-4 py-3 text-ink outline-none transition focus:border-pine/50 focus:ring-2 focus:ring-pine/20"
+                className="mt-2 w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-[var(--color-text-primary)] outline-none transition focus:border-[var(--color-blue-600)] focus:ring-2 focus:ring-[var(--color-blue-100)]"
               />
             </label>
-            <label className="block text-sm text-ink/70">
+            <label className="block text-sm text-[var(--color-text-secondary)]">
               Height (m)
               <input
                 type="number"
@@ -142,17 +142,21 @@ export default function NewStoreModal({ isOpen, onClose, onCreated }: NewStoreMo
                 max={1000}
                 value={form.height_m}
                 onChange={(event) => setForm((prev) => ({ ...prev, height_m: event.target.valueAsNumber }))}
-                className="mt-2 w-full rounded-xl border border-ink/15 bg-white px-4 py-3 text-ink outline-none transition focus:border-pine/50 focus:ring-2 focus:ring-pine/20"
+                className="mt-2 w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-[var(--color-text-primary)] outline-none transition focus:border-[var(--color-blue-600)] focus:ring-2 focus:ring-[var(--color-blue-100)]"
               />
             </label>
           </div>
 
-          {error ? <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p> : null}
+          {error ? (
+            <p className="rounded-lg bg-[var(--color-status-red-bg)] px-3 py-2 text-sm text-[var(--color-status-red-text)]">
+              {error}
+            </p>
+          ) : null}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-xl bg-pine px-4 py-3 text-sm font-semibold text-white transition hover:bg-pine/90 disabled:cursor-not-allowed disabled:opacity-60"
+            className="w-full rounded-xl bg-[var(--color-blue-600)] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[var(--color-blue-700)] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? "Creating store..." : "Create store"}
           </button>

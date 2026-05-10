@@ -37,7 +37,7 @@ export default function ProductBlock({
   onDragEnd,
 }: ProductBlockProps) {
   const textColor = useMemo(
-    () => (isDark(product.color_hex) ? "#FFFFFF" : "#11201B"),
+    () => (isDark(product.color_hex) ? "#FFFFFF" : "#111827"),
     [product.color_hex],
   );
 
@@ -47,13 +47,9 @@ export default function ProductBlock({
         width={widthPx}
         height={heightPx}
         fill={product.color_hex}
-        stroke={isSelected ? "#185f4d" : "#11201B"}
+        stroke="#111827"
         strokeWidth={isSelected ? 3 : 1}
         cornerRadius={3}
-        shadowEnabled={isSelected}
-        shadowColor="#185f4d"
-        shadowBlur={isSelected ? 6 : 0}
-        shadowOpacity={0.4}
       />
       <Text
         x={6}

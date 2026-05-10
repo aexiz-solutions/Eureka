@@ -81,13 +81,15 @@ export default function AccountPage() {
 
   if (!user) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-50 p-6">
-        <section className="w-full max-w-lg rounded-2xl border border-ink/10 bg-white p-6 text-center shadow">
-          <h1 className="text-2xl font-semibold text-ink">Account</h1>
-          <p className="mt-2 text-sm text-ink/70">You need to sign in to view your account details.</p>
+      <main className="flex min-h-screen items-center justify-center bg-[var(--color-bg-subtle)] p-6">
+        <section className="w-full max-w-lg rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 text-center shadow-sm">
+          <h1 className="text-2xl font-semibold text-[var(--color-text-primary)]">Account</h1>
+          <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
+            You need to sign in to view your account details.
+          </p>
           <Link
             href="/login"
-            className="mt-4 inline-flex items-center justify-center rounded-lg bg-pine px-4 py-2 text-sm font-semibold text-white"
+            className="mt-4 inline-flex items-center justify-center rounded-lg bg-[var(--color-blue-600)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--color-blue-700)]"
           >
             Go to login
           </Link>
@@ -100,15 +102,15 @@ export default function AccountPage() {
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-6 p-8">
-      <header className="rounded-2xl border border-pine/20 bg-white/90 p-6 shadow">
-        <p className="text-sm uppercase tracking-wide text-ink/60">Account</p>
-        <h1 className="mt-2 text-3xl font-bold text-ink">Plan: {planLabel}</h1>
-        <p className="mt-2 text-sm text-ink/75">{planInfo.summary}</p>
+      <header className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
+        <p className="text-sm uppercase tracking-wide text-[var(--color-text-secondary)]">Account</p>
+        <h1 className="mt-2 text-3xl font-bold text-[var(--color-text-primary)]">Plan: {planLabel}</h1>
+        <p className="mt-2 text-sm text-[var(--color-text-secondary)]">{planInfo.summary}</p>
         <div className="mt-4 flex flex-wrap gap-3">
           <button
             type="button"
             onClick={() => router.push("/dashboard")}
-            className="rounded-lg border border-ink/30 px-4 py-2 text-sm font-semibold text-ink"
+            className="rounded-lg border border-[var(--color-blue-600)] px-4 py-2 text-sm font-semibold text-[var(--color-blue-600)] transition hover:bg-[var(--color-blue-100)]"
           >
             Back to dashboard
           </button>
@@ -118,7 +120,7 @@ export default function AccountPage() {
               logout();
               router.push("/login");
             }}
-            className="rounded-lg bg-ink px-4 py-2 text-sm font-semibold text-white"
+            className="rounded-lg px-4 py-2 text-sm font-semibold text-[var(--color-blue-600)] transition hover:text-[var(--color-blue-700)]"
           >
             Logout
           </button>
@@ -126,42 +128,42 @@ export default function AccountPage() {
       </header>
 
       <section className="grid gap-6 md:grid-cols-[1.2fr_1fr]">
-        <div className="rounded-2xl border border-ink/15 bg-white/90 p-6 shadow">
-          <h2 className="text-lg font-semibold text-ink">Plan highlights</h2>
-          <p className="mt-1 text-sm text-ink/70">{planInfo.title}</p>
-          <ul className="mt-4 space-y-2 text-sm text-ink/75">
+        <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">Plan highlights</h2>
+          <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{planInfo.title}</p>
+          <ul className="mt-4 space-y-2 text-sm text-[var(--color-text-secondary)]">
             {planInfo.highlights.map((item) => (
               <li key={item} className="flex items-center gap-2">
-                <span className="inline-flex h-1.5 w-1.5 rounded-full bg-pine" />
+                <span className="inline-flex h-1.5 w-1.5 rounded-full bg-[var(--color-text-secondary)]" />
                 <span>{item}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="rounded-2xl border border-ink/15 bg-white/90 p-6 shadow">
-          <h2 className="text-lg font-semibold text-ink">Your details</h2>
-          <div className="mt-4 space-y-2 text-sm text-ink/75">
+        <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">Your details</h2>
+          <div className="mt-4 space-y-2 text-sm text-[var(--color-text-secondary)]">
             <p>
-              <span className="font-semibold text-ink">Name:</span> {user.first_name} {user.last_name}
+              <span className="font-semibold text-[var(--color-text-primary)]">Name:</span> {user.first_name} {user.last_name}
             </p>
             <p>
-              <span className="font-semibold text-ink">Email:</span> {user.email}
+              <span className="font-semibold text-[var(--color-text-primary)]">Email:</span> {user.email}
             </p>
             <p>
-              <span className="font-semibold text-ink">Username:</span> {user.username}
+              <span className="font-semibold text-[var(--color-text-primary)]">Username:</span> {user.username}
             </p>
             <p>
-              <span className="font-semibold text-ink">Company:</span> {user.company_name || "-"}
+              <span className="font-semibold text-[var(--color-text-primary)]">Company:</span> {user.company_name || "-"}
             </p>
             <p>
-              <span className="font-semibold text-ink">Role:</span> {ROLE_LABELS[user.role] ?? user.role}
+              <span className="font-semibold text-[var(--color-text-primary)]">Role:</span> {ROLE_LABELS[user.role] ?? user.role}
             </p>
             <p>
-              <span className="font-semibold text-ink">Status:</span> {user.approval_status}
+              <span className="font-semibold text-[var(--color-text-primary)]">Status:</span> {user.approval_status}
             </p>
             <p>
-              <span className="font-semibold text-ink">Member since:</span> {formatDate(user.created_at)}
+              <span className="font-semibold text-[var(--color-text-primary)]">Member since:</span> {formatDate(user.created_at)}
             </p>
           </div>
         </div>

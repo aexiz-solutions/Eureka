@@ -56,17 +56,17 @@ export default function StoresImporter({ onImported }: StoresImporterProps) {
   };
 
   return (
-    <section className="rounded-3xl border border-ink/10 bg-white/95 p-6 shadow">
+    <section className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
       <header>
-        <p className="text-xs uppercase tracking-[0.2em] text-ink/50">Stores</p>
-        <h2 className="mt-1 text-xl font-bold text-ink">Upload your store list</h2>
-        <p className="mt-1 text-sm text-ink/70">
+        <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">Stores</p>
+        <h2 className="mt-1 text-xl font-bold text-[var(--color-text-primary)]">Upload your store list</h2>
+        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
           Eureka parses store names to build the country → state → city hierarchy automatically. Required column: <code>store_name</code>. Optional: <code>city</code>, <code>state</code>, <code>store_type</code>.
         </p>
         <button
           type="button"
           onClick={downloadSample}
-          className="mt-3 text-xs font-semibold text-pine hover:underline"
+          className="mt-3 text-xs font-semibold text-[var(--color-blue-600)] hover:underline"
         >
           Download sample CSV
         </button>
@@ -82,7 +82,9 @@ export default function StoresImporter({ onImported }: StoresImporterProps) {
       </div>
 
       {error ? (
-        <p className="mt-4 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">{error}</p>
+        <p className="mt-4 rounded-xl border border-[var(--color-status-red-text)] bg-[var(--color-status-red-bg)] px-3 py-2 text-sm text-[var(--color-status-red-text)]">
+          {error}
+        </p>
       ) : null}
 
       {summary ? (

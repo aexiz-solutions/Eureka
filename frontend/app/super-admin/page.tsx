@@ -91,20 +91,23 @@ const ROLE_LABELS: Record<SuperAdminUserRow["role"], string> = {
 };
 
 const STATUS_STYLES: Record<SuperAdminUserRow["approval_status"], string> = {
-  approved: "bg-green-100 text-green-700",
-  pending: "bg-yellow-100 text-yellow-900",
-  rejected: "bg-red-100 text-red-700",
+  approved: "bg-[var(--color-status-green-bg)] text-[var(--color-status-green-text)]",
+  pending: "bg-[var(--color-status-yellow-bg)] text-[var(--color-status-yellow-text)]",
+  rejected: "bg-[var(--color-status-red-bg)] text-[var(--color-status-red-text)]",
 };
 
 const FILTER_ACTIVE_STYLES: Record<RequestFilter, string> = {
-  pending: "border border-yellow-200 bg-yellow-100 text-yellow-900",
-  approved: "border border-green-200 bg-green-100 text-green-800",
-  rejected: "border border-red-200 bg-red-100 text-red-700",
-  all: "border border-pink-200 bg-pink-100 text-pink-700",
+  pending:
+    "border border-[var(--color-status-yellow-text)] bg-[var(--color-status-yellow-bg)] text-[var(--color-status-yellow-text)]",
+  approved:
+    "border border-[var(--color-status-green-text)] bg-[var(--color-status-green-bg)] text-[var(--color-status-green-text)]",
+  rejected:
+    "border border-[var(--color-status-red-text)] bg-[var(--color-status-red-bg)] text-[var(--color-status-red-text)]",
+  all: "border border-[var(--color-blue-600)] bg-[var(--color-blue-100)] text-[var(--color-blue-800)]",
 };
 
 const FILTER_INACTIVE_STYLE =
-  "border border-slate-200 bg-white text-slate-600 hover:border-pink-300 hover:text-pink-600";
+  "border border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text-secondary)] hover:border-[var(--color-blue-600)] hover:text-[var(--color-blue-600)]";
 
 function formatDate(value: string | null): string {
   if (!value) {
@@ -259,19 +262,21 @@ export default function SuperAdminPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-100 px-6 py-4">
-      <header className="rounded-xl border border-slate-200 bg-white px-5 py-3 shadow-sm">
+    <main className="min-h-screen bg-[var(--color-bg-subtle)] px-6 py-4">
+      <header className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-5 py-3 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm font-semibold text-slate-700">Super Admin</p>
+          <p className="text-sm font-semibold text-[var(--color-text-primary)]">Super Admin</p>
           <div className="flex items-center gap-3">
-            <span className="text-sm text-slate-500">{user.first_name} {user.last_name}</span>
+            <span className="text-sm text-[var(--color-text-secondary)]">
+              {user.first_name} {user.last_name}
+            </span>
             <button
               type="button"
               onClick={() => {
                 logout();
                 router.push("/login");
               }}
-              className="rounded-md border border-red-200 bg-red-50 px-3 py-1.5 text-sm font-semibold text-red-700 hover:bg-red-100"
+              className="rounded-md px-3 py-1.5 text-sm font-semibold text-[var(--color-blue-600)] hover:text-[var(--color-blue-700)]"
             >
               Logout
             </button>
@@ -281,41 +286,47 @@ export default function SuperAdminPage() {
 
       {adminStats ? (
         <section className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-            <p className="text-xs uppercase tracking-wider text-slate-500">Total users</p>
-            <p className="mt-1 text-2xl font-bold text-slate-900">{adminStats.users.total}</p>
-            <p className="mt-1 text-xs text-slate-500">
+          <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] p-4 shadow-sm">
+            <p className="text-xs uppercase tracking-wider text-[var(--color-text-secondary)]">Total users</p>
+            <p className="mt-1 text-2xl font-bold text-[var(--color-text-primary)]">
+              {adminStats.users.total}
+            </p>
+            <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
               {adminStats.users.approved} approved · {adminStats.users.pending} pending
             </p>
           </div>
-          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-            <p className="text-xs uppercase tracking-wider text-slate-500">Total stores</p>
-            <p className="mt-1 text-2xl font-bold text-slate-900">{adminStats.stores.total}</p>
-            <p className="mt-1 text-xs text-slate-500">across all users</p>
+          <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] p-4 shadow-sm">
+            <p className="text-xs uppercase tracking-wider text-[var(--color-text-secondary)]">Total stores</p>
+            <p className="mt-1 text-2xl font-bold text-[var(--color-text-primary)]">
+              {adminStats.stores.total}
+            </p>
+            <p className="mt-1 text-xs text-[var(--color-text-secondary)]">across all users</p>
           </div>
-          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-            <p className="text-xs uppercase tracking-wider text-slate-500">Total planograms</p>
-            <p className="mt-1 text-2xl font-bold text-slate-900">{adminStats.planograms.total}</p>
-            <p className="mt-1 text-xs text-slate-500">
+          <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] p-4 shadow-sm">
+            <p className="text-xs uppercase tracking-wider text-[var(--color-text-secondary)]">Total planograms</p>
+            <p className="mt-1 text-2xl font-bold text-[var(--color-text-primary)]">
+              {adminStats.planograms.total}
+            </p>
+            <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
               of {adminStats.planograms.has_unlimited_users ? "∞" : adminStats.planograms.total_quota} quota
             </p>
           </div>
-          <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-            <p className="text-xs uppercase tracking-wider text-slate-500">Utilisation</p>
-            <p className="mt-1 text-2xl font-bold text-slate-900">
+          <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] p-4 shadow-sm">
+            <p className="text-xs uppercase tracking-wider text-[var(--color-text-secondary)]">Utilisation</p>
+            <p className="mt-1 text-2xl font-bold text-[var(--color-text-primary)]">
               {adminStats.planograms.utilisation_pct !== null
                 ? `${adminStats.planograms.utilisation_pct.toFixed(1)}%`
                 : "—"}
             </p>
             {adminStats.planograms.utilisation_pct !== null ? (
-              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-100">
+              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[var(--color-bg-muted)]">
                 <div
                   className={`h-full ${
                     adminStats.planograms.utilisation_pct >= 90
-                      ? "bg-rose-500"
+                      ? "bg-[var(--color-status-red-text)]"
                       : adminStats.planograms.utilisation_pct >= 70
-                        ? "bg-amber-500"
-                        : "bg-emerald-500"
+                        ? "bg-[var(--color-status-yellow-text)]"
+                        : "bg-[var(--color-status-green-text)]"
                   }`}
                   style={{
                     width: `${Math.min(100, adminStats.planograms.utilisation_pct)}%`,
@@ -323,13 +334,13 @@ export default function SuperAdminPage() {
                 />
               </div>
             ) : (
-              <p className="mt-2 text-xs text-slate-500">unlimited users present</p>
+              <p className="mt-2 text-xs text-[var(--color-text-secondary)]">unlimited users present</p>
             )}
           </div>
         </section>
       ) : null}
 
-      <section className="mt-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+      <section className="mt-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] p-5 shadow-sm">
         <div className="flex flex-wrap items-center gap-2">
           {TABS.map((tab) => (
             <button
@@ -338,8 +349,8 @@ export default function SuperAdminPage() {
               onClick={() => setActiveTab(tab.key)}
               className={`rounded-md px-3 py-1.5 text-sm font-semibold transition ${
                 activeTab === tab.key
-                  ? "bg-pink-600 text-white"
-                  : "border border-slate-200 bg-white text-slate-700 hover:border-pink-300 hover:text-pink-600"
+                  ? "bg-[var(--color-text-primary)] text-white"
+                  : "border border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text-secondary)] hover:border-[var(--color-blue-600)] hover:text-[var(--color-blue-600)]"
               }`}
             >
               {tab.label}
@@ -349,21 +360,23 @@ export default function SuperAdminPage() {
       </section>
 
       {rowsError ? (
-        <p className="mt-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+        <p className="mt-4 rounded-md border border-[var(--color-status-red-text)] bg-[var(--color-status-red-bg)] px-3 py-2 text-sm text-[var(--color-status-red-text)]">
           {rowsError}
         </p>
       ) : null}
 
       {activeTab === "onboarding" ? (
-        <section className="mt-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <section className="mt-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] p-5 shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h1 className="text-3xl font-bold text-slate-900">Super Admin · Pilot Onboarding</h1>
-              <p className="mt-1 text-sm text-slate-600">
+              <h1 className="text-3xl font-bold text-[var(--color-text-primary)]">
+                Super Admin · Pilot Onboarding
+              </h1>
+              <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
                 Review brand signup applications. Approve to provision workspace, reject to dismiss request.
               </p>
             </div>
-            <p className="text-sm font-medium text-slate-500">{requestsCountLabel}</p>
+            <p className="text-sm font-medium text-[var(--color-text-secondary)]">{requestsCountLabel}</p>
           </div>
 
           <div className="mt-4 flex flex-wrap gap-2">
@@ -382,12 +395,12 @@ export default function SuperAdminPage() {
           </div>
 
           {loadingRows ? (
-            <p className="mt-4 text-sm text-slate-600">Loading requests...</p>
+            <p className="mt-4 text-sm text-[var(--color-text-secondary)]">Loading requests...</p>
           ) : (
-            <div className="mt-4 overflow-x-auto rounded-lg border border-slate-200">
+            <div className="mt-4 overflow-x-auto rounded-lg border border-[var(--color-border)]">
               <table className="min-w-full border-collapse text-sm">
-                <thead className="bg-slate-50">
-                  <tr className="text-left text-xs uppercase tracking-wide text-slate-500">
+                <thead className="bg-[var(--color-bg)]">
+                  <tr className="text-left text-xs uppercase tracking-wide text-[var(--color-text-secondary)]">
                     <th className="px-3 py-2">Brand</th>
                     <th className="px-3 py-2">Applicant</th>
                     <th className="px-3 py-2">Contact</th>
@@ -398,22 +411,32 @@ export default function SuperAdminPage() {
                 </thead>
                 <tbody>
                   {onboardingRows.map((row) => (
-                    <tr key={row.id} className="border-t border-slate-100">
+                    <tr key={row.id} className="border-t border-[var(--color-border)]">
                       <td className="px-3 py-3">
-                        <p className="font-semibold text-slate-800">{row.company_name || "No company"}</p>
-                        <p className="text-xs text-slate-500">user: {row.username}</p>
+                        <p className="font-semibold text-[var(--color-text-primary)]">
+                          {row.company_name || "No company"}
+                        </p>
+                        <p className="text-xs text-[var(--color-text-secondary)]">user: {row.username}</p>
                       </td>
                       <td className="px-3 py-3">
-                        <p className="font-semibold text-slate-800">{row.first_name} {row.last_name}</p>
-                        <p className="text-xs text-slate-500">{row.email}</p>
+                        <p className="font-semibold text-[var(--color-text-primary)]">
+                          {row.first_name} {row.last_name}
+                        </p>
+                        <p className="text-xs text-[var(--color-text-secondary)]">{row.email}</p>
                       </td>
-                      <td className="px-3 py-3 text-slate-700">{row.phone_number || "-"}</td>
-                      <td className="px-3 py-3 text-slate-700">{formatDate(row.created_at)}</td>
+                      <td className="px-3 py-3 text-[var(--color-text-secondary)]">
+                        {row.phone_number || "-"}
+                      </td>
+                      <td className="px-3 py-3 text-[var(--color-text-secondary)]">
+                        {formatDate(row.created_at)}
+                      </td>
                       <td className="px-3 py-3">
                         <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${STATUS_STYLES[row.approval_status]}`}>
                           {row.approval_status.toUpperCase()}
                         </span>
-                        <p className="mt-1 text-xs text-slate-500">reviewed {formatDate(row.reviewed_at)}</p>
+                        <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
+                          reviewed {formatDate(row.reviewed_at)}
+                        </p>
                       </td>
                       <td className="px-3 py-3">
                         {row.approval_status === "pending" ? (
@@ -422,7 +445,7 @@ export default function SuperAdminPage() {
                               type="button"
                               disabled={actionUserId === row.id}
                               onClick={() => void reviewRequest(row, "approved")}
-                              className="rounded-md bg-green-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-green-700 disabled:opacity-60"
+                              className="rounded-md bg-[var(--color-status-green-text)] px-3 py-1.5 text-xs font-semibold text-white hover:opacity-90 disabled:opacity-60"
                             >
                               Approve
                             </button>
@@ -430,13 +453,13 @@ export default function SuperAdminPage() {
                               type="button"
                               disabled={actionUserId === row.id}
                               onClick={() => void reviewRequest(row, "rejected")}
-                              className="rounded-md bg-red-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-red-700 disabled:opacity-60"
+                              className="rounded-md bg-[var(--color-status-red-text)] px-3 py-1.5 text-xs font-semibold text-white hover:opacity-90 disabled:opacity-60"
                             >
                               Reject
                             </button>
                           </div>
                         ) : (
-                          <span className="text-slate-400">-</span>
+                          <span className="text-[var(--color-text-secondary)]">-</span>
                         )}
                       </td>
                     </tr>
@@ -449,17 +472,19 @@ export default function SuperAdminPage() {
       ) : null}
 
       {activeTab === "users" ? (
-        <section className="mt-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h2 className="text-2xl font-bold text-slate-900">Users Table</h2>
-          <p className="mt-1 text-sm text-slate-600">All registered users and profile details.</p>
+        <section className="mt-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] p-5 shadow-sm">
+          <h2 className="text-2xl font-bold text-[var(--color-text-primary)]">Users Table</h2>
+          <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
+            All registered users and profile details.
+          </p>
 
           {loadingRows ? (
-            <p className="mt-4 text-sm text-slate-600">Loading users...</p>
+            <p className="mt-4 text-sm text-[var(--color-text-secondary)]">Loading users...</p>
           ) : (
-            <div className="mt-4 overflow-x-auto rounded-lg border border-slate-200">
+            <div className="mt-4 overflow-x-auto rounded-lg border border-[var(--color-border)]">
               <table className="min-w-full border-collapse text-sm">
-                <thead className="bg-slate-50">
-                  <tr className="text-left text-xs uppercase tracking-wide text-slate-500">
+                <thead className="bg-[var(--color-bg)]">
+                  <tr className="text-left text-xs uppercase tracking-wide text-[var(--color-text-secondary)]">
                     <th className="px-3 py-2">First Name</th>
                     <th className="px-3 py-2">Last Name</th>
                     <th className="px-3 py-2">Username</th>
@@ -473,15 +498,15 @@ export default function SuperAdminPage() {
                 </thead>
                 <tbody>
                   {usersRows.map((row) => (
-                    <tr key={row.id} className="border-t border-slate-100">
-                      <td className="px-3 py-2">{row.first_name}</td>
-                      <td className="px-3 py-2">{row.last_name}</td>
-                      <td className="px-3 py-2">{row.username}</td>
-                      <td className="px-3 py-2">{row.email}</td>
-                      <td className="px-3 py-2">{row.phone_number || "-"}</td>
-                      <td className="px-3 py-2">{row.company_name || "-"}</td>
-                      <td className="px-3 py-2">{ROLE_LABELS[row.role]}</td>
-                      <td className="px-3 py-2">{PLAN_LABELS[row.subscription_tier]}</td>
+                    <tr key={row.id} className="border-t border-[var(--color-border)]">
+                      <td className="px-3 py-2 text-[var(--color-text-secondary)]">{row.first_name}</td>
+                      <td className="px-3 py-2 text-[var(--color-text-secondary)]">{row.last_name}</td>
+                      <td className="px-3 py-2 text-[var(--color-text-secondary)]">{row.username}</td>
+                      <td className="px-3 py-2 text-[var(--color-text-secondary)]">{row.email}</td>
+                      <td className="px-3 py-2 text-[var(--color-text-secondary)]">{row.phone_number || "-"}</td>
+                      <td className="px-3 py-2 text-[var(--color-text-secondary)]">{row.company_name || "-"}</td>
+                      <td className="px-3 py-2 text-[var(--color-text-secondary)]">{ROLE_LABELS[row.role]}</td>
+                      <td className="px-3 py-2 text-[var(--color-text-secondary)]">{PLAN_LABELS[row.subscription_tier]}</td>
                       <td className="px-3 py-2">
                         <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${STATUS_STYLES[row.approval_status]}`}>
                           {row.approval_status.toUpperCase()}
@@ -497,30 +522,30 @@ export default function SuperAdminPage() {
       ) : null}
 
       {activeTab === "limits" ? (
-        <section className="mt-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h2 className="text-2xl font-bold text-slate-900">Limits</h2>
-          <p className="mt-1 text-sm text-slate-600">
+        <section className="mt-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] p-5 shadow-sm">
+          <h2 className="text-2xl font-bold text-[var(--color-text-primary)]">Limits</h2>
+          <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
             Manage per-user annual planogram limits. Tier defaults apply until a user override is saved.
           </p>
 
           {userLimitError ? (
-            <p className="mt-3 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+            <p className="mt-3 rounded border border-[var(--color-status-red-text)] bg-[var(--color-status-red-bg)] px-3 py-2 text-sm text-[var(--color-status-red-text)]">
               {userLimitError}
             </p>
           ) : null}
           {userLimitMessage ? (
-            <p className="mt-3 rounded border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
+            <p className="mt-3 rounded border border-[var(--color-status-green-text)] bg-[var(--color-status-green-bg)] px-3 py-2 text-sm text-[var(--color-status-green-text)]">
               {userLimitMessage}
             </p>
           ) : null}
 
           {loadingRows ? (
-            <p className="mt-4 text-sm text-slate-600">Loading limits...</p>
+            <p className="mt-4 text-sm text-[var(--color-text-secondary)]">Loading limits...</p>
           ) : (
-            <div className="mt-4 overflow-x-auto rounded-lg border border-slate-200">
+            <div className="mt-4 overflow-x-auto rounded-lg border border-[var(--color-border)]">
               <table className="min-w-full border-collapse text-sm">
-                <thead className="bg-slate-50">
-                  <tr className="text-left text-xs uppercase tracking-wide text-slate-500">
+                <thead className="bg-[var(--color-bg)]">
+                  <tr className="text-left text-xs uppercase tracking-wide text-[var(--color-text-secondary)]">
                     <th className="px-3 py-2">Username</th>
                     <th className="px-3 py-2">First Name</th>
                     <th className="px-3 py-2">Last Name</th>
@@ -541,46 +566,46 @@ export default function SuperAdminPage() {
                         : null;
                     const usageColor =
                       utilisation === null
-                        ? "bg-slate-300"
+                        ? "bg-[var(--color-border)]"
                         : utilisation >= 90
-                          ? "bg-rose-500"
+                          ? "bg-[var(--color-status-red-text)]"
                           : utilisation >= 70
-                            ? "bg-amber-500"
-                            : "bg-emerald-500";
+                            ? "bg-[var(--color-status-yellow-text)]"
+                            : "bg-[var(--color-status-green-text)]";
                     return (
-                      <tr key={row.id} className="border-t border-slate-100">
-                        <td className="px-3 py-3 font-semibold text-slate-800">{row.username}</td>
-                        <td className="px-3 py-3 text-slate-700">{row.first_name}</td>
-                        <td className="px-3 py-3 text-slate-700">{row.last_name}</td>
-                        <td className="px-3 py-3 text-slate-700">{row.email}</td>
-                        <td className="px-3 py-3 text-slate-700">{row.phone_number || "-"}</td>
-                        <td className="px-3 py-3 text-slate-700">{PLAN_LABELS[row.subscription_tier]}</td>
+                      <tr key={row.id} className="border-t border-[var(--color-border)]">
+                        <td className="px-3 py-3 font-semibold text-[var(--color-text-primary)]">{row.username}</td>
+                        <td className="px-3 py-3 text-[var(--color-text-secondary)]">{row.first_name}</td>
+                        <td className="px-3 py-3 text-[var(--color-text-secondary)]">{row.last_name}</td>
+                        <td className="px-3 py-3 text-[var(--color-text-secondary)]">{row.email}</td>
+                        <td className="px-3 py-3 text-[var(--color-text-secondary)]">{row.phone_number || "-"}</td>
+                        <td className="px-3 py-3 text-[var(--color-text-secondary)]">{PLAN_LABELS[row.subscription_tier]}</td>
                         <td className="px-3 py-3">
-                          <p className="font-semibold text-slate-800">{formatLimit(row.plan_limit)}</p>
+                          <p className="font-semibold text-[var(--color-text-primary)]">{formatLimit(row.plan_limit)}</p>
                           <span
                             className={`mt-1 inline-flex rounded-full px-2 py-0.5 text-xs font-semibold ${
                               row.plan_limit.source === "override"
-                                ? "bg-blue-100 text-blue-700"
-                                : "bg-slate-100 text-slate-600"
+                                ? "bg-[var(--color-blue-100)] text-[var(--color-blue-800)]"
+                                : "bg-[var(--color-bg-muted)] text-[var(--color-text-secondary)]"
                             }`}
                           >
                             {row.plan_limit.source === "override" ? "Override" : "Tier default"}
                           </span>
                         </td>
                         <td className="px-3 py-3">
-                          <p className="text-sm font-semibold text-slate-800">
+                          <p className="text-sm font-semibold text-[var(--color-text-primary)]">
                             {row.planogram_count}
                             {row.plan_limit.is_unlimited ? " / ∞" : limit ? ` / ${limit}` : ""}
                           </p>
                           {utilisation !== null ? (
-                            <div className="mt-1 h-1.5 w-24 overflow-hidden rounded-full bg-slate-100">
+                            <div className="mt-1 h-1.5 w-24 overflow-hidden rounded-full bg-[var(--color-bg-muted)]">
                               <div
                                 className={`h-full ${usageColor}`}
                                 style={{ width: `${utilisation}%` }}
                               />
                             </div>
                           ) : (
-                            <p className="mt-1 text-[10px] uppercase tracking-wider text-slate-400">
+                            <p className="mt-1 text-[10px] uppercase tracking-wider text-[var(--color-text-secondary)]">
                               {row.plan_limit.is_unlimited ? "Unlimited" : "No limit set"}
                             </p>
                           )}
@@ -590,7 +615,7 @@ export default function SuperAdminPage() {
                             type="button"
                             aria-label={`Edit limits for ${row.username}`}
                             onClick={() => openLimitEditor(row)}
-                            className="rounded-md bg-pink-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-pink-700"
+                            className="rounded-md bg-[var(--color-blue-600)] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[var(--color-blue-700)]"
                           >
                             Limits
                           </button>
@@ -606,42 +631,42 @@ export default function SuperAdminPage() {
       ) : null}
 
       {editingLimitUser ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 px-4 py-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 py-6">
           <div
             role="dialog"
             aria-modal="true"
             aria-labelledby="limit-editor-title"
-            className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl"
+            className="w-full max-w-lg rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-2xl"
           >
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                <p className="text-xs font-semibold uppercase tracking-wide text-[var(--color-text-secondary)]">
                   {PLAN_LABELS[editingLimitUser.subscription_tier]}
                 </p>
-                <h3 id="limit-editor-title" className="mt-1 text-2xl font-bold text-slate-900">
+                <h3 id="limit-editor-title" className="mt-1 text-2xl font-bold text-[var(--color-text-primary)]">
                   Edit limits for {editingLimitUser.username}
                 </h3>
-                <p className="mt-1 text-sm text-slate-600">
+                <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
                   {editingLimitUser.first_name} {editingLimitUser.last_name} · {editingLimitUser.email}
                 </p>
               </div>
               <button
                 type="button"
                 onClick={closeLimitEditor}
-                className="rounded-full border border-slate-200 px-3 py-1 text-sm font-semibold text-slate-600 hover:border-slate-300"
+                className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm font-semibold text-[var(--color-text-secondary)] hover:border-[var(--color-blue-600)]"
               >
                 Close
               </button>
             </div>
 
             {userLimitError ? (
-              <p className="mt-4 rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+              <p className="mt-4 rounded border border-[var(--color-status-red-text)] bg-[var(--color-status-red-bg)] px-3 py-2 text-sm text-[var(--color-status-red-text)]">
                 {userLimitError}
               </p>
             ) : null}
 
             <div className="mt-5 space-y-4">
-              <label className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700">
+              <label className="flex items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-muted)] px-3 py-2 text-sm font-semibold text-[var(--color-text-primary)]">
                 <input
                   type="checkbox"
                   checked={limitDraft.useTierDefault}
@@ -652,7 +677,7 @@ export default function SuperAdminPage() {
                 Use {PLAN_LABELS[editingLimitUser.subscription_tier]} tier default
               </label>
 
-              <label className="flex items-center gap-2 text-sm font-semibold text-slate-700">
+              <label className="flex items-center gap-2 text-sm font-semibold text-[var(--color-text-primary)]">
                 <input
                   type="checkbox"
                   checked={limitDraft.isUnlimited}
@@ -668,7 +693,7 @@ export default function SuperAdminPage() {
                 Unlimited
               </label>
 
-              <label className="block text-sm font-semibold text-slate-700">
+              <label className="block text-sm font-semibold text-[var(--color-text-primary)]">
                 Annual planogram limit
                 <input
                   aria-label="Annual planogram limit"
@@ -679,7 +704,7 @@ export default function SuperAdminPage() {
                   onChange={(event) =>
                     setLimitDraft((previous) => ({ ...previous, annualLimit: event.target.value }))
                   }
-                  className="mt-2 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-pink-200 transition focus:ring disabled:bg-slate-100"
+                  className="mt-2 w-full rounded-lg border border-[var(--color-border)] px-3 py-2 text-sm outline-none transition focus:ring focus:ring-[var(--color-blue-100)] disabled:bg-[var(--color-bg-muted)]"
                 />
               </label>
             </div>
@@ -688,7 +713,7 @@ export default function SuperAdminPage() {
               <button
                 type="button"
                 onClick={closeLimitEditor}
-                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-slate-300"
+                className="rounded-lg border border-[var(--color-blue-600)] px-4 py-2 text-sm font-semibold text-[var(--color-blue-600)] hover:bg-[var(--color-blue-100)]"
               >
                 Cancel
               </button>
@@ -696,7 +721,7 @@ export default function SuperAdminPage() {
                 type="button"
                 disabled={savingUserLimit}
                 onClick={() => void saveUserLimit()}
-                className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-60"
+                className="rounded-lg bg-[var(--color-blue-600)] px-4 py-2 text-sm font-semibold text-white hover:bg-[var(--color-blue-700)] disabled:opacity-60"
               >
                 {savingUserLimit ? "Saving..." : "Save limits"}
               </button>

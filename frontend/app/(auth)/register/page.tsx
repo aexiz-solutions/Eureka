@@ -79,7 +79,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-50 p-6">
+    <main className="flex min-h-screen items-center justify-center bg-[var(--color-bg-subtle)] p-6">
       <AuthCard
         title="Sign Up"
         subtitle="Register your workspace. Admin approval is required before first login."
@@ -87,7 +87,10 @@ export default function RegisterPage() {
         footer={
           <>
             Already registered?{" "}
-            <Link href="/login" className="font-semibold text-pink-600 underline-offset-4 hover:underline">
+            <Link
+              href="/login"
+              className="font-semibold text-[var(--color-blue-600)] underline-offset-4 hover:underline"
+            >
               Go to login
             </Link>
           </>
@@ -97,7 +100,7 @@ export default function RegisterPage() {
         error={error}
       >
         <div>
-          <p className="text-sm font-medium text-ink">Choose role</p>
+          <p className="text-sm font-medium text-[var(--color-text-primary)]">Choose role</p>
           <div className="mt-2 flex flex-wrap gap-2">
             {PLAN_OPTIONS.map((option) => {
               const isSelected = option.id === selectedRole;
@@ -109,8 +112,8 @@ export default function RegisterPage() {
                   aria-pressed={isSelected}
                   className={`rounded-lg border px-3 py-2 text-sm font-semibold transition ${
                     isSelected
-                      ? "border-emerald-700 bg-emerald-700 text-white shadow-sm"
-                      : "border-pink-200 bg-white text-ink hover:border-pink-300 hover:bg-pink-50"
+                      ? "border-[var(--color-blue-600)] bg-[var(--color-blue-600)] text-white shadow-sm"
+                      : "border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text-primary)] hover:border-[var(--color-blue-600)] hover:bg-[var(--color-blue-100)]"
                   }`}
                 >
                   {option.label}
@@ -122,7 +125,7 @@ export default function RegisterPage() {
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
-            <label className="mb-1 block text-sm font-medium text-ink" htmlFor="firstName">
+            <label className="mb-1 block text-sm font-medium text-[var(--color-text-primary)]" htmlFor="firstName">
               First Name
             </label>
             <input
@@ -132,11 +135,11 @@ export default function RegisterPage() {
               maxLength={80}
               value={firstName}
               onChange={(event) => setFirstName(event.target.value)}
-              className="w-full rounded-lg border border-ink/20 px-3 py-2 outline-none ring-pink-200 transition focus:ring"
+              className="w-full rounded-lg border border-[var(--color-border)] px-3 py-2 outline-none transition focus:border-[var(--color-blue-600)] focus:ring focus:ring-[var(--color-blue-100)]"
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm font-medium text-ink" htmlFor="lastName">
+            <label className="mb-1 block text-sm font-medium text-[var(--color-text-primary)]" htmlFor="lastName">
               Last Name
             </label>
             <input
@@ -146,13 +149,13 @@ export default function RegisterPage() {
               maxLength={80}
               value={lastName}
               onChange={(event) => setLastName(event.target.value)}
-              className="w-full rounded-lg border border-ink/20 px-3 py-2 outline-none ring-pink-200 transition focus:ring"
+              className="w-full rounded-lg border border-[var(--color-border)] px-3 py-2 outline-none transition focus:border-[var(--color-blue-600)] focus:ring focus:ring-[var(--color-blue-100)]"
             />
           </div>
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-ink" htmlFor="username">
+          <label className="mb-1 block text-sm font-medium text-[var(--color-text-primary)]" htmlFor="username">
             Username
           </label>
           <input
@@ -165,12 +168,12 @@ export default function RegisterPage() {
             placeholder="e.g. retail_user"
             value={username}
             onChange={(event) => setUsername(event.target.value)}
-            className="w-full rounded-lg border border-ink/20 px-3 py-2 outline-none ring-pink-200 transition focus:ring"
+            className="w-full rounded-lg border border-[var(--color-border)] px-3 py-2 outline-none transition focus:border-[var(--color-blue-600)] focus:ring focus:ring-[var(--color-blue-100)]"
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-ink" htmlFor="companyName">
+          <label className="mb-1 block text-sm font-medium text-[var(--color-text-primary)]" htmlFor="companyName">
             Company Name
           </label>
           <input
@@ -179,13 +182,13 @@ export default function RegisterPage() {
             maxLength={160}
             value={companyName}
             onChange={(event) => setCompanyName(event.target.value)}
-            className="w-full rounded-lg border border-ink/20 px-3 py-2 outline-none ring-pink-200 transition focus:ring"
+            className="w-full rounded-lg border border-[var(--color-border)] px-3 py-2 outline-none transition focus:border-[var(--color-blue-600)] focus:ring focus:ring-[var(--color-blue-100)]"
           />
         </div>
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
-            <label className="mb-1 block text-sm font-medium text-ink" htmlFor="email">
+            <label className="mb-1 block text-sm font-medium text-[var(--color-text-primary)]" htmlFor="email">
               Email
             </label>
             <input
@@ -194,11 +197,11 @@ export default function RegisterPage() {
               required
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="w-full rounded-lg border border-ink/20 px-3 py-2 outline-none ring-pink-200 transition focus:ring"
+              className="w-full rounded-lg border border-[var(--color-border)] px-3 py-2 outline-none transition focus:border-[var(--color-blue-600)] focus:ring focus:ring-[var(--color-blue-100)]"
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm font-medium text-ink" htmlFor="phoneNumber">
+            <label className="mb-1 block text-sm font-medium text-[var(--color-text-primary)]" htmlFor="phoneNumber">
               Phone Number
             </label>
             <input
@@ -209,13 +212,13 @@ export default function RegisterPage() {
               maxLength={32}
               value={phoneNumber}
               onChange={(event) => setPhoneNumber(event.target.value)}
-              className="w-full rounded-lg border border-ink/20 px-3 py-2 outline-none ring-pink-200 transition focus:ring"
+              className="w-full rounded-lg border border-[var(--color-border)] px-3 py-2 outline-none transition focus:border-[var(--color-blue-600)] focus:ring focus:ring-[var(--color-blue-100)]"
             />
           </div>
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-ink" htmlFor="password">
+          <label className="mb-1 block text-sm font-medium text-[var(--color-text-primary)]" htmlFor="password">
             Password
           </label>
           <input
@@ -225,7 +228,7 @@ export default function RegisterPage() {
             minLength={8}
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="w-full rounded-lg border border-ink/20 px-3 py-2 outline-none ring-pink-200 transition focus:ring"
+            className="w-full rounded-lg border border-[var(--color-border)] px-3 py-2 outline-none transition focus:border-[var(--color-blue-600)] focus:ring focus:ring-[var(--color-blue-100)]"
           />
         </div>
       </AuthCard>

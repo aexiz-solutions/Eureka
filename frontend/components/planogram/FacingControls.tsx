@@ -25,7 +25,7 @@ export default function FacingControls() {
 
   if (!found) {
     return (
-      <div className="rounded-2xl border border-dashed border-ink/20 bg-white/80 p-4 text-xs text-ink/60">
+      <div className="rounded-2xl border border-dashed border-[var(--color-border)] bg-[var(--color-bg)] p-4 text-xs text-[var(--color-text-secondary)]">
         Click a product on the canvas to edit facings.
       </div>
     );
@@ -41,30 +41,32 @@ export default function FacingControls() {
     shelfWidthCm;
 
   return (
-    <div className="space-y-3 rounded-2xl border border-ink/10 bg-white p-4 shadow-sm">
+    <div className="space-y-3 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-4 shadow-sm">
       <div>
-        <p className="text-xs uppercase tracking-wider text-ink/50">Selected SKU</p>
-        <p className="mt-1 text-sm font-semibold text-ink">{product.sku}</p>
-        <p className="text-xs text-ink/70">{product.name}</p>
+        <p className="text-xs uppercase tracking-wider text-[var(--color-text-secondary)]">Selected SKU</p>
+        <p className="mt-1 text-sm font-semibold text-[var(--color-text-primary)]">{product.sku}</p>
+        <p className="text-xs text-[var(--color-text-secondary)]">{product.name}</p>
       </div>
 
       <div>
-        <p className="text-xs uppercase tracking-wider text-ink/50">Facings</p>
+        <p className="text-xs uppercase tracking-wider text-[var(--color-text-secondary)]">Facings</p>
         <div className="mt-1 flex items-center gap-3">
           <button
             type="button"
             onClick={() => updateFacings(product.sku, shelf.shelf_number, product.facing_count - 1)}
             disabled={product.facing_count <= 1}
-            className="h-8 w-8 rounded-full border border-ink/20 text-base font-semibold text-ink/80 transition hover:border-ink/40 disabled:opacity-40"
+            className="h-8 w-8 rounded-full border border-[var(--color-border)] text-base font-semibold text-[var(--color-text-primary)] transition hover:border-[var(--color-blue-600)] disabled:opacity-40"
           >
             −
           </button>
-          <span className="min-w-[3ch] text-center text-lg font-semibold text-ink">{product.facing_count}</span>
+          <span className="min-w-[3ch] text-center text-lg font-semibold text-[var(--color-text-primary)]">
+            {product.facing_count}
+          </span>
           <button
             type="button"
             onClick={() => updateFacings(product.sku, shelf.shelf_number, product.facing_count + 1)}
             disabled={!canIncrement}
-            className="h-8 w-8 rounded-full border border-ink/20 text-base font-semibold text-ink/80 transition hover:border-ink/40 disabled:opacity-40"
+            className="h-8 w-8 rounded-full border border-[var(--color-border)] text-base font-semibold text-[var(--color-text-primary)] transition hover:border-[var(--color-blue-600)] disabled:opacity-40"
           >
             +
           </button>
@@ -72,13 +74,19 @@ export default function FacingControls() {
       </div>
 
       <div>
-        <div className="flex items-center justify-between text-xs text-ink/60">
+        <div className="flex items-center justify-between text-xs text-[var(--color-text-secondary)]">
           <span>Shelf {shelf.shelf_number} occupancy</span>
           <span className="font-mono">{occupancyPct.toFixed(0)}%</span>
         </div>
-        <div className="mt-1 h-2 overflow-hidden rounded-full bg-ink/10">
+        <div className="mt-1 h-2 overflow-hidden rounded-full bg-[var(--color-bg-muted)]">
           <div
-            className={`h-full ${occupancyPct >= 95 ? "bg-rose-500" : occupancyPct >= 80 ? "bg-amber-500" : "bg-pine"}`}
+            className={`h-full ${
+              occupancyPct >= 95
+                ? "bg-[var(--color-status-red-text)]"
+                : occupancyPct >= 80
+                  ? "bg-[var(--color-status-yellow-text)]"
+                  : "bg-[var(--color-status-green-text)]"
+            }`}
             style={{ width: `${occupancyPct}%` }}
           />
         </div>
@@ -87,7 +95,7 @@ export default function FacingControls() {
       <button
         type="button"
         onClick={() => removeProduct(product.sku, shelf.shelf_number)}
-        className="w-full rounded-full border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700 transition hover:border-rose-300"
+        className="w-full rounded-full border border-[var(--color-status-red-text)] bg-[var(--color-status-red-bg)] px-3 py-1.5 text-xs font-semibold text-[var(--color-status-red-text)] transition hover:opacity-90"
       >
         Remove from shelf
       </button>

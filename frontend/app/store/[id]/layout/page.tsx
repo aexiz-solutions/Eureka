@@ -20,8 +20,8 @@ export default function StoreLayoutLegacyRedirectPage() {
   }, [router, storeId]);
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-canvas px-6 py-8">
-      <p className="text-sm text-ink/70">Redirecting to the planogram editor...</p>
+    <main className="flex min-h-screen items-center justify-center bg-[var(--color-bg-subtle)] px-6 py-8">
+      <p className="text-sm text-[var(--color-text-secondary)]">Redirecting to the planogram editor...</p>
     </main>
   );
 }

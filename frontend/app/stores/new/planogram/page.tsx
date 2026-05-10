@@ -27,19 +27,19 @@ export default function NewPlanogramPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_20%_0%,#f2e5c4_0%,#f6f7f8_45%,#eef2ef_100%)] px-6 py-8">
+    <main className="min-h-screen bg-[var(--color-bg-subtle)] px-6 py-8">
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-6">
-        <header className="rounded-3xl border border-ink/10 bg-white/90 p-6 shadow">
-          <p className="text-xs uppercase tracking-[0.2em] text-ink/50">New planogram</p>
-          <h1 className="mt-2 text-3xl font-bold text-ink">Create a store first</h1>
-          <p className="mt-2 text-sm text-ink/70">
+        <header className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
+          <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">New planogram</p>
+          <h1 className="mt-2 text-3xl font-bold text-[var(--color-text-primary)]">Create a store first</h1>
+          <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
             Planograms belong to a store. Create one now and we will generate and open the first planogram.
           </p>
           <button
             type="button"
             onClick={() => setIsOpen(true)}
             disabled={creating}
-            className="mt-4 rounded-full bg-pine px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+            className="mt-4 rounded-full bg-[var(--color-blue-600)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--color-blue-700)] disabled:opacity-60"
           >
             {creating ? "Preparing planogram..." : "Create store"}
           </button>

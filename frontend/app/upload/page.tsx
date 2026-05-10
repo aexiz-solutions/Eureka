@@ -80,16 +80,18 @@ export default function UploadPage() {
   const goToDashboard = () => router.push("/dashboard");
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_15%_20%,#f2e5c4_0%,#f6f7f8_45%,#eef2ef_100%)]">
+    <main className="min-h-screen bg-[var(--color-bg-subtle)]">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-6 py-8">
-        <header className="rounded-3xl border border-ink/10 bg-white/95 p-6 shadow">
+        <header className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-ink/50">Data Ingestion</p>
-              <h1 className="mt-2 text-3xl font-bold text-ink">
+              <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
+                Data Ingestion
+              </p>
+              <h1 className="mt-2 text-3xl font-bold text-[var(--color-text-primary)]">
                 Welcome{user?.first_name ? `, ${user.first_name}` : ""} — let's get your data in.
               </h1>
-              <p className="mt-2 max-w-2xl text-sm text-ink/70">
+              <p className="mt-2 max-w-2xl text-sm text-[var(--color-text-secondary)]">
                 Eureka generates planograms from your existing data. Upload stores, products, and sales —
                 in any order — then jump to the dashboard to see your store hierarchy and generate AI
                 planograms.
@@ -98,7 +100,7 @@ export default function UploadPage() {
             <button
               type="button"
               onClick={goToDashboard}
-              className="rounded-full bg-pine px-4 py-2 text-sm font-semibold text-white"
+              className="rounded-full bg-[var(--color-blue-600)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--color-blue-700)]"
             >
               Go to Dashboard →
             </button>
@@ -118,19 +120,21 @@ export default function UploadPage() {
                   onClick={() => setActiveTab(tab.key)}
                   className={`rounded-2xl border px-4 py-3 text-left transition ${
                     isActive
-                      ? "border-pine bg-pine/5"
-                      : "border-ink/10 bg-white hover:border-ink/30"
+                      ? "border-[var(--color-blue-600)] bg-[var(--color-blue-100)]"
+                      : "border-[var(--color-border)] bg-[var(--color-bg)] hover:border-[var(--color-blue-600)]"
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-semibold text-ink">{tab.label}</p>
+                    <p className="text-sm font-semibold text-[var(--color-text-primary)]">
+                      {tab.label}
+                    </p>
                     {completed ? (
-                      <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-700">
+                      <span className="rounded-full bg-[var(--color-status-green-bg)] px-2 py-0.5 text-[10px] font-semibold text-[var(--color-status-green-text)]">
                         Done
                       </span>
                     ) : null}
                   </div>
-                  <p className="mt-1 text-xs text-ink/60">{tab.description}</p>
+                  <p className="mt-1 text-xs text-[var(--color-text-secondary)]">{tab.description}</p>
                 </button>
               );
             })}
@@ -153,26 +157,26 @@ export default function UploadPage() {
 
         {activeTab === "sales" ? (
           <section className="space-y-4">
-            <div className="rounded-3xl border border-ink/10 bg-white/95 p-6 shadow">
-              <p className="text-xs uppercase tracking-[0.2em] text-ink/50">Sales</p>
-              <h2 className="mt-1 text-xl font-bold text-ink">Upload sales by store</h2>
-              <p className="mt-1 text-sm text-ink/70">
+            <div className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
+              <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">Sales</p>
+              <h2 className="mt-1 text-xl font-bold text-[var(--color-text-primary)]">Upload sales by store</h2>
+              <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
                 Sales data must be tied to a specific store. Pick a store, set the period, and upload.
               </p>
 
               {stores.length === 0 ? (
-                <p className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
+                <p className="mt-4 rounded-xl border border-[var(--color-status-yellow-text)] bg-[var(--color-status-yellow-bg)] px-3 py-2 text-sm text-[var(--color-status-yellow-text)]">
                   Upload at least one store first (in the Stores tab) before uploading sales.
                 </p>
               ) : (
                 <div className="mt-4 max-w-md">
-                  <label className="text-[11px] font-semibold uppercase tracking-wider text-ink/50">
+                  <label className="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-text-secondary)]">
                     Store
                   </label>
                   <select
                     value={salesStoreId}
                     onChange={(event) => setSalesStoreId(event.target.value)}
-                    className="mt-1 w-full rounded-lg border border-ink/15 px-3 py-2 text-sm outline-none focus:border-pine/50"
+                    className="mt-1 w-full rounded-lg border border-[var(--color-border)] px-3 py-2 text-sm outline-none focus:border-[var(--color-blue-600)]"
                   >
                     {stores.map((store) => (
                       <option key={store.id} value={store.id}>

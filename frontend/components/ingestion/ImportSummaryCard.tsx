@@ -11,9 +11,9 @@ interface ImportSummaryCardProps {
 }
 
 const STATUS_STYLES: Record<ImportSummaryResponse["status"], string> = {
-  completed: "bg-green-100 text-green-700",
-  partial: "bg-yellow-100 text-yellow-800",
-  failed: "bg-red-100 text-red-700",
+  completed: "bg-[var(--color-status-green-bg)] text-[var(--color-status-green-text)]",
+  partial: "bg-[var(--color-status-yellow-bg)] text-[var(--color-status-yellow-text)]",
+  failed: "bg-[var(--color-status-red-bg)] text-[var(--color-status-red-text)]",
 };
 
 export default function ImportSummaryCard({ summary, onDismiss, onViewErrors }: ImportSummaryCardProps) {
@@ -39,12 +39,16 @@ export default function ImportSummaryCard({ summary, onDismiss, onViewErrors }: 
   };
 
   return (
-    <section className="rounded-2xl border border-ink/10 bg-white/95 p-6 shadow">
+    <section className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-ink/50">Import summary</p>
-          <h3 className="mt-2 text-xl font-semibold text-ink">{summary.original_filename}</h3>
-          <p className="mt-1 text-xs text-ink/60">Format: {summary.file_format.toUpperCase()}</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">Import summary</p>
+          <h3 className="mt-2 text-xl font-semibold text-[var(--color-text-primary)]">
+            {summary.original_filename}
+          </h3>
+          <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
+            Format: {summary.file_format.toUpperCase()}
+          </p>
         </div>
         <div className="flex items-center gap-2">
           <span className={`rounded-full px-3 py-1 text-xs font-semibold ${STATUS_STYLES[summary.status]}`}>
@@ -53,7 +57,7 @@ export default function ImportSummaryCard({ summary, onDismiss, onViewErrors }: 
           <button
             type="button"
             onClick={onDismiss}
-            className="rounded-full border border-ink/15 px-3 py-1 text-xs text-ink/70 hover:border-ink/30"
+            className="rounded-full border border-[var(--color-blue-600)] px-3 py-1 text-xs text-[var(--color-blue-600)] transition hover:bg-[var(--color-blue-100)]"
           >
             Dismiss
           </button>
@@ -61,35 +65,35 @@ export default function ImportSummaryCard({ summary, onDismiss, onViewErrors }: 
       </div>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-3">
-        <div className="rounded-xl border border-ink/10 bg-ink/5 p-3">
-          <p className="text-xs text-ink/60">Total rows</p>
-          <p className="text-lg font-semibold text-ink">{summary.total_rows}</p>
+        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-muted)] p-3">
+          <p className="text-xs text-[var(--color-text-secondary)]">Total rows</p>
+          <p className="text-lg font-semibold text-[var(--color-text-primary)]">{summary.total_rows}</p>
         </div>
-        <div className="rounded-xl border border-ink/10 bg-ink/5 p-3">
-          <p className="text-xs text-ink/60">Imported</p>
-          <p className="text-lg font-semibold text-ink">{summary.success}</p>
+        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-muted)] p-3">
+          <p className="text-xs text-[var(--color-text-secondary)]">Imported</p>
+          <p className="text-lg font-semibold text-[var(--color-text-primary)]">{summary.success}</p>
         </div>
-        <div className="rounded-xl border border-ink/10 bg-ink/5 p-3">
-          <p className="text-xs text-ink/60">Errors</p>
-          <p className="text-lg font-semibold text-ink">{summary.errors.length}</p>
+        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-muted)] p-3">
+          <p className="text-xs text-[var(--color-text-secondary)]">Errors</p>
+          <p className="text-lg font-semibold text-[var(--color-text-primary)]">{summary.errors.length}</p>
         </div>
       </div>
 
       {summary.period_start && summary.period_end ? (
-        <div className="mt-4 rounded-xl border border-ink/10 bg-white px-4 py-3 text-sm text-ink/70">
+        <div className="mt-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-3 text-sm text-[var(--color-text-secondary)]">
           Period: {summary.period_start} to {summary.period_end}
         </div>
       ) : null}
 
       {summary.unmatched_skus && summary.unmatched_skus.length > 0 ? (
-        <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+        <div className="mt-4 rounded-xl border border-[var(--color-status-yellow-text)] bg-[var(--color-status-yellow-bg)] px-4 py-3 text-sm text-[var(--color-status-yellow-text)]">
           {summary.unmatched_skus.length} SKUs did not match your product catalog. Sales data was imported but
           will not appear in planogram analytics until products are added.
         </div>
       ) : null}
 
       {summary.potential_duplicates && summary.potential_duplicates.length > 0 ? (
-        <div className="mt-4 rounded-xl border border-yellow-300 bg-yellow-50 px-4 py-3 text-sm text-yellow-900">
+        <div className="mt-4 rounded-xl border border-[var(--color-status-yellow-text)] bg-[var(--color-status-yellow-bg)] px-4 py-3 text-sm text-[var(--color-status-yellow-text)]">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="font-semibold">
               Possible Duplicate Products Detected ({summary.potential_duplicates.length})
@@ -97,18 +101,18 @@ export default function ImportSummaryCard({ summary, onDismiss, onViewErrors }: 
             <button
               type="button"
               onClick={() => setShowDuplicates((prev) => !prev)}
-              className="text-xs font-semibold text-yellow-900 underline decoration-yellow-700 underline-offset-2"
+              className="text-xs font-semibold text-[var(--color-status-yellow-text)] underline underline-offset-2"
             >
               {showDuplicates ? "Hide details" : "Review details"}
             </button>
           </div>
-          <p className="mt-1 text-xs text-yellow-800">
+          <p className="mt-1 text-xs text-[var(--color-status-yellow-text)]">
             These SKUs may refer to the same product. Review manually before downstream planning.
           </p>
           {showDuplicates ? (
-            <div className="mt-3 max-h-64 overflow-auto rounded-xl border border-yellow-200 bg-white">
+            <div className="mt-3 max-h-64 overflow-auto rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)]">
               <table className="w-full text-left text-sm">
-                <thead className="sticky top-0 bg-yellow-100 text-xs uppercase tracking-widest text-yellow-800">
+                <thead className="sticky top-0 bg-[var(--color-bg-muted)] text-xs uppercase tracking-widest text-[var(--color-text-secondary)]">
                   <tr>
                     <th className="px-3 py-2">Existing</th>
                     <th className="px-3 py-2">Imported</th>
@@ -119,15 +123,17 @@ export default function ImportSummaryCard({ summary, onDismiss, onViewErrors }: 
                   {summary.potential_duplicates.map((duplicate) => (
                     <tr
                       key={`${duplicate.sku_a}-${duplicate.sku_b}-${duplicate.row_b}`}
-                      className="border-t border-yellow-100"
+                      className="border-t border-[var(--color-border)]"
                     >
-                      <td className="px-3 py-2 text-ink/80">
+                      <td className="px-3 py-2 text-[var(--color-text-secondary)]">
                         {duplicate.name_a} ({duplicate.sku_a})
                       </td>
-                      <td className="px-3 py-2 text-ink/80">
+                      <td className="px-3 py-2 text-[var(--color-text-secondary)]">
                         {duplicate.name_b} ({duplicate.sku_b})
                       </td>
-                      <td className="px-3 py-2 text-ink/80">{Math.round(duplicate.similarity)}%</td>
+                      <td className="px-3 py-2 text-[var(--color-text-secondary)]">
+                        {Math.round(duplicate.similarity)}%
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -142,14 +148,14 @@ export default function ImportSummaryCard({ summary, onDismiss, onViewErrors }: 
           <button
             type="button"
             onClick={handleToggleErrors}
-            className="text-sm font-semibold text-pine hover:text-pine/80"
+            className="text-sm font-semibold text-[var(--color-blue-600)] hover:text-[var(--color-blue-700)]"
           >
             {showErrors ? "Hide errors" : "View errors"}
           </button>
           {showErrors ? (
-            <div className="mt-3 max-h-64 overflow-auto rounded-xl border border-ink/10 bg-white">
+            <div className="mt-3 max-h-64 overflow-auto rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)]">
               <table className="w-full text-left text-sm">
-                <thead className="sticky top-0 bg-ink/5 text-xs uppercase tracking-widest text-ink/60">
+                <thead className="sticky top-0 bg-[var(--color-bg-muted)] text-xs uppercase tracking-widest text-[var(--color-text-secondary)]">
                   <tr>
                     <th className="px-3 py-2">Row</th>
                     <th className="px-3 py-2">Reason</th>
@@ -157,9 +163,9 @@ export default function ImportSummaryCard({ summary, onDismiss, onViewErrors }: 
                 </thead>
                 <tbody>
                   {summary.errors.map((error) => (
-                    <tr key={`${error.row}-${error.reason}`} className="border-t border-ink/10">
-                      <td className="px-3 py-2 text-ink/70">{error.row}</td>
-                      <td className="px-3 py-2 text-ink/80">{error.reason}</td>
+                    <tr key={`${error.row}-${error.reason}`} className="border-t border-[var(--color-border)]">
+                      <td className="px-3 py-2 text-[var(--color-text-secondary)]">{error.row}</td>
+                      <td className="px-3 py-2 text-[var(--color-text-secondary)]">{error.reason}</td>
                     </tr>
                   ))}
                 </tbody>

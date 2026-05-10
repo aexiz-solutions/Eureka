@@ -100,13 +100,13 @@ export default function FileUploader({
   });
 
   return (
-    <section className="rounded-2xl border border-ink/10 bg-white/90 p-6 shadow">
+    <section className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <p className="text-sm font-semibold text-ink">{label}</p>
-          <p className="mt-1 text-xs text-ink/60">{hint}</p>
+          <p className="text-sm font-semibold text-[var(--color-text-primary)]">{label}</p>
+          <p className="mt-1 text-xs text-[var(--color-text-secondary)]">{hint}</p>
         </div>
-        <span className="rounded-full border border-ink/10 bg-ink/5 px-3 py-1 text-xs text-ink/60">
+        <span className="rounded-full border border-[var(--color-border)] bg-[var(--color-bg-muted)] px-3 py-1 text-xs text-[var(--color-text-secondary)]">
           Max {maxSizeMB} MB
         </span>
       </div>
@@ -114,29 +114,31 @@ export default function FileUploader({
       <div
         {...getRootProps()}
         className={`mt-4 flex flex-col items-center justify-center rounded-2xl border-2 border-dashed px-6 py-8 text-center transition ${
-          isDragActive ? "border-pine/60 bg-pine/5" : "border-ink/15 bg-white"
-        } ${isUploading ? "opacity-60" : "hover:border-pine/40"}`}
+          isDragActive
+            ? "border-[var(--color-blue-600)] bg-[var(--color-blue-100)]"
+            : "border-[var(--color-border)] bg-[var(--color-bg)]"
+        } ${isUploading ? "opacity-60" : "hover:border-[var(--color-blue-600)]"}`}
       >
         <input {...getInputProps()} />
-        <p className="text-sm font-semibold text-ink">
+        <p className="text-sm font-semibold text-[var(--color-text-primary)]">
           {isDragActive ? "Drop the file here" : "Drag and drop a file here"}
         </p>
-        <p className="mt-2 text-xs text-ink/60">Or click to browse your computer</p>
+        <p className="mt-2 text-xs text-[var(--color-text-secondary)]">Or click to browse your computer</p>
       </div>
 
       {selectedFile ? (
-        <div className="mt-4 rounded-xl border border-ink/10 bg-ink/5 px-4 py-3">
+        <div className="mt-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-muted)] px-4 py-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
-              <p className="text-sm font-semibold text-ink">{selectedFile.name}</p>
-              <p className="text-xs text-ink/60">
+              <p className="text-sm font-semibold text-[var(--color-text-primary)]">{selectedFile.name}</p>
+              <p className="text-xs text-[var(--color-text-secondary)]">
                 {formatBytes(selectedFile.size)} · {detectFormat(selectedFile.name)}
               </p>
             </div>
             <button
               type="button"
               onClick={() => setSelectedFile(null)}
-              className="rounded-full border border-ink/15 px-3 py-1 text-xs text-ink/70 hover:border-ink/30"
+              className="rounded-full border border-[var(--color-blue-600)] px-3 py-1 text-xs text-[var(--color-blue-600)] transition hover:bg-[var(--color-blue-100)]"
               disabled={isUploading}
             >
               Clear
@@ -145,15 +147,19 @@ export default function FileUploader({
         </div>
       ) : null}
 
-      {error ? <p className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p> : null}
+      {error ? (
+        <p className="mt-3 rounded-lg bg-[var(--color-status-red-bg)] px-3 py-2 text-sm text-[var(--color-status-red-text)]">
+          {error}
+        </p>
+      ) : null}
 
       <div className="mt-4 flex items-center justify-between">
-        <p className="text-xs text-ink/60">Accepted: {accept}</p>
+        <p className="text-xs text-[var(--color-text-secondary)]">Accepted: {accept}</p>
         <button
           type="button"
           onClick={() => selectedFile && onUpload(selectedFile)}
           disabled={!selectedFile || isUploading}
-          className="rounded-full bg-pine px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-pine/90 disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-full bg-[var(--color-blue-600)] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--color-blue-700)] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isUploading ? "Uploading..." : "Upload"}
         </button>

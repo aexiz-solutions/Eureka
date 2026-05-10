@@ -27,9 +27,9 @@ const TYPE_LABELS: Record<StoreType, string> = {
 };
 
 const TYPE_STYLES: Record<StoreType, string> = {
-  supermarket: "bg-pine/10 text-pine",
-  convenience: "bg-amber-100 text-amber-700",
-  specialty: "bg-teal-100 text-teal-700",
+  supermarket: "bg-[var(--color-blue-100)] text-[var(--color-blue-800)]",
+  convenience: "bg-[var(--color-blue-100)] text-[var(--color-blue-800)]",
+  specialty: "bg-[var(--color-blue-100)] text-[var(--color-blue-800)]",
 };
 
 export default function StoreCard({ store, onRename, onDelete }: StoreCardProps) {
@@ -79,22 +79,22 @@ export default function StoreCard({ store, onRename, onDelete }: StoreCardProps)
   };
 
   return (
-    <article className="group flex h-full flex-col justify-between rounded-2xl border border-ink/10 bg-white/85 p-5 shadow-sm transition hover:-translate-y-1 hover:border-pine/30 hover:shadow-lg">
+    <article className="group flex h-full flex-col justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-5 shadow-sm transition hover:-translate-y-1 hover:border-[var(--color-blue-600)] hover:shadow-lg">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-ink/50">Store</p>
-          <h3 className="mt-2 text-xl font-semibold text-ink">{store.name}</h3>
+          <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">Store</p>
+          <h3 className="mt-2 text-xl font-semibold text-[var(--color-text-primary)]">{store.name}</h3>
         </div>
         <details className="relative">
-          <summary className="flex h-8 w-8 cursor-pointer list-none items-center justify-center rounded-full text-ink/70 transition hover:bg-ink/5">
+          <summary className="flex h-8 w-8 cursor-pointer list-none items-center justify-center rounded-full text-[var(--color-text-secondary)] transition hover:bg-[var(--color-bg-muted)]">
             ...
           </summary>
-          <div className="absolute right-0 z-10 mt-2 w-36 rounded-xl border border-ink/10 bg-white p-2 text-sm shadow-lg">
+          <div className="absolute right-0 z-10 mt-2 w-36 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] p-2 text-sm shadow-lg">
             <button
               type="button"
               onClick={handleRename}
               disabled={busyAction === "rename"}
-              className="w-full rounded-lg px-3 py-2 text-left text-ink transition hover:bg-ink/5"
+              className="w-full rounded-lg px-3 py-2 text-left text-[var(--color-text-primary)] transition hover:bg-[var(--color-bg-muted)]"
             >
               {busyAction === "rename" ? "Renaming..." : "Rename"}
             </button>
@@ -102,7 +102,7 @@ export default function StoreCard({ store, onRename, onDelete }: StoreCardProps)
               type="button"
               onClick={handleDelete}
               disabled={busyAction === "delete"}
-              className="mt-1 w-full rounded-lg px-3 py-2 text-left text-red-600 transition hover:bg-red-50"
+              className="mt-1 w-full rounded-lg px-3 py-2 text-left text-[var(--color-status-red-text)] transition hover:bg-[var(--color-status-red-bg)]"
             >
               {busyAction === "delete" ? "Deleting..." : "Delete"}
             </button>
@@ -114,17 +114,17 @@ export default function StoreCard({ store, onRename, onDelete }: StoreCardProps)
         <span className={`rounded-full px-3 py-1 text-xs font-semibold ${TYPE_STYLES[store.store_type]}`}>
           {TYPE_LABELS[store.store_type]}
         </span>
-        <span className="text-sm text-ink/70">
+        <span className="text-sm text-[var(--color-text-secondary)]">
           {store.width_m}m x {store.height_m}m
         </span>
       </div>
 
-      <div className="mt-4 flex items-center justify-between text-sm text-ink/60">
+      <div className="mt-4 flex items-center justify-between text-sm text-[var(--color-text-secondary)]">
         <span>Created {createdLabel}</span>
         <button
           type="button"
           onClick={() => router.push(`/stores/${store.id}/planogram/latest`)}
-          className="font-semibold text-pine transition hover:text-pine/80"
+          className="font-semibold text-[var(--color-blue-600)] transition hover:text-[var(--color-blue-700)]"
         >
           Open Planogram {"->"}
         </button>

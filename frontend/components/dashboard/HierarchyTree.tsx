@@ -137,17 +137,19 @@ function StoreLeafRow({
       type="button"
       onClick={onClick}
       className={`flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-sm transition ${
-        selected ? "bg-pine/10 text-ink" : "text-ink/80 hover:bg-canvas/60"
+        selected
+          ? "bg-[var(--color-blue-100)] text-[var(--color-blue-800)]"
+          : "text-[var(--color-text-primary)] hover:bg-[var(--color-bg-muted)]"
       }`}
       style={{ paddingLeft: depth * 16 + 24 }}
     >
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium">{store.display_name ?? store.raw_name}</p>
-        <p className="truncate text-[10px] uppercase tracking-wider text-ink/40">
+        <p className="truncate text-[10px] uppercase tracking-wider text-[var(--color-text-secondary)]">
           {[store.locality, store.city, store.store_type].filter(Boolean).join(" · ") || "Store"}
         </p>
       </div>
-      <span className="ml-2 shrink-0 text-[10px] font-mono text-ink/40">
+      <span className="ml-2 shrink-0 text-[10px] font-mono text-[var(--color-text-secondary)]">
         {store.parse_confidence !== null && store.parse_confidence !== undefined
           ? `${Math.round((store.parse_confidence || 0) * 100)}%`
           : ""}
@@ -173,14 +175,20 @@ function NodeRow({
       <button
         type="button"
         onClick={() => toggle(node.key)}
-        className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm font-semibold text-ink transition hover:bg-canvas/60"
+        className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm font-semibold text-[var(--color-text-primary)] transition hover:bg-[var(--color-bg-muted)]"
         style={{ paddingLeft: depth * 16 + 4 }}
       >
-        <span className={`inline-block w-3 text-center text-ink/50 transition ${isOpen ? "rotate-90" : ""}`}>
+        <span
+          className={`inline-block w-3 text-center text-[var(--color-text-secondary)] transition ${
+            isOpen ? "rotate-90" : ""
+          }`}
+        >
           {hasChildren ? "›" : "·"}
         </span>
         <span className="flex-1">{node.label}</span>
-        <span className="text-[11px] font-mono text-ink/50">{node.storeCount}</span>
+        <span className="text-[11px] font-mono text-[var(--color-text-secondary)]">
+          {node.storeCount}
+        </span>
       </button>
 
       {isOpen ? (
@@ -264,12 +272,12 @@ export default function HierarchyTree({
 
   if (stores.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-ink/20 bg-white/60 p-6 text-center text-sm text-ink/60">
+      <div className="rounded-2xl border border-dashed border-[var(--color-border)] bg-[var(--color-bg)] p-6 text-center text-sm text-[var(--color-text-secondary)]">
         <p>No stores yet.</p>
         <button
           type="button"
           onClick={() => router.push("/upload")}
-          className="mt-3 rounded-full bg-pine px-3 py-1.5 text-xs font-semibold text-white"
+          className="mt-3 rounded-full bg-[var(--color-blue-600)] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[var(--color-blue-700)]"
         >
           Upload stores
         </button>
@@ -278,7 +286,7 @@ export default function HierarchyTree({
   }
 
   return (
-    <div className="rounded-2xl border border-ink/10 bg-white p-3 shadow-sm">
+    <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-3 shadow-sm">
       <div className="space-y-0.5">
         {tree.map((node) => (
           <NodeRow

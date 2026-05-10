@@ -13,18 +13,18 @@ const SEVERITY_RANK: Record<string, number> = { high: 0, medium: 1, low: 2 };
 
 const SEVERITY_STYLES: Record<string, { container: string; chip: string; label: string }> = {
   high: {
-    container: "border-rose-300 bg-rose-50",
-    chip: "bg-rose-200 text-rose-900",
+    container: "border-[var(--color-status-red-text)] bg-[var(--color-status-red-bg)]",
+    chip: "bg-[var(--color-status-red-text)] text-white",
     label: "Action Required",
   },
   medium: {
-    container: "border-amber-300 bg-amber-50",
-    chip: "bg-amber-200 text-amber-900",
+    container: "border-[var(--color-status-yellow-text)] bg-[var(--color-status-yellow-bg)]",
+    chip: "bg-[var(--color-status-yellow-text)] text-white",
     label: "Heads Up",
   },
   low: {
-    container: "border-slate-200 bg-slate-50",
-    chip: "bg-slate-200 text-slate-700",
+    container: "border-[var(--color-border)] bg-[var(--color-bg-muted)]",
+    chip: "bg-[var(--color-bg)] text-[var(--color-text-secondary)]",
     label: "FYI",
   },
 };
@@ -76,12 +76,12 @@ export default function DataQualityBanner({ warnings }: DataQualityBannerProps) 
             >
               {styles.label}
             </span>
-            <p className="flex-1 text-sm text-ink/90">{warning.message}</p>
+            <p className="flex-1 text-sm text-[var(--color-text-primary)]">{warning.message}</p>
             <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={() => router.push(warning.action_url)}
-                className="rounded-full border border-ink/20 bg-white px-3 py-1 text-xs font-semibold text-ink transition hover:border-ink/40"
+                className="rounded-full border border-[var(--color-blue-600)] bg-[var(--color-bg)] px-3 py-1 text-xs font-semibold text-[var(--color-blue-600)] transition hover:bg-[var(--color-blue-100)]"
               >
                 {warning.action_label || "Fix"}
               </button>
@@ -95,7 +95,7 @@ export default function DataQualityBanner({ warnings }: DataQualityBannerProps) 
                       return next;
                     })
                   }
-                  className="text-xs text-ink/50 hover:text-ink"
+                  className="text-xs text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
                   aria-label="Dismiss"
                 >
                   ✕
