@@ -12,9 +12,9 @@ interface ImportHistoryProps {
 }
 
 const STATUS_STYLES: Record<ImportLogResponse["status"], string> = {
-  completed: "bg-[var(--color-status-green-bg)] text-[var(--color-status-green-text)]",
-  partial: "bg-[var(--color-status-yellow-bg)] text-[var(--color-status-yellow-text)]",
-  failed: "bg-[var(--color-status-red-bg)] text-[var(--color-status-red-text)]",
+  completed: "bg-green-100 text-green-700",
+  partial: "bg-yellow-100 text-yellow-800",
+  failed: "bg-red-100 text-red-800",
 };
 
 const FORMAT_LABELS: Record<ImportLogResponse["file_format"], string> = {
@@ -65,70 +65,79 @@ export default function ImportHistory({ title, fetchUrl }: ImportHistoryProps) {
   );
 
   if (loading) {
-    return <p className="text-sm text-[var(--color-text-secondary)]">Loading import history...</p>;
+    return <p className="text-sm text-gray-500">Loading import history...</p>;
   }
 
   if (error) {
     return (
-      <p className="rounded-lg bg-[var(--color-status-red-bg)] px-3 py-2 text-sm text-[var(--color-status-red-text)]">
+      <p className="rounded-md border border-red-200 bg-red-100 px-3 py-2 text-sm text-red-800">
         {error}
       </p>
     );
   }
 
   if (!hasRows) {
-    return <p className="text-sm text-[var(--color-text-secondary)]">No imports recorded yet.</p>;
+    return <p className="text-sm text-gray-500">No imports recorded yet.</p>;
   }
 
   return (
-    <section className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
-      <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">{title}</h3>
+    <section className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+      <h3 className="text-base font-semibold text-gray-900">{title}</h3>
       <div className="mt-4 overflow-x-auto">
         <table className="w-full min-w-[760px] text-left text-sm">
-          <thead className="bg-[var(--color-bg-muted)] text-xs uppercase tracking-widest text-[var(--color-text-secondary)]">
-            <tr>
-              <th className="px-3 py-2">Date</th>
-              <th className="px-3 py-2">File</th>
-              <th className="px-3 py-2">Format</th>
-              <th className="px-3 py-2">Type</th>
-              <th className="px-3 py-2">Rows</th>
-              <th className="px-3 py-2">Success</th>
-              <th className="px-3 py-2">Errors</th>
-              <th className="px-3 py-2">Status</th>
+          <thead>
+            <tr className="border-b border-gray-200">
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Date
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                File
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Format
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Type
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Rows
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Success
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Errors
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                Status
+              </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-gray-100">
             {rows.map((row) => {
               const isExpanded = expandedId === row.id;
               return (
                 <Fragment key={row.id}>
-                  <tr
-                    className="border-t border-[var(--color-border)] hover:bg-[var(--color-bg-muted)]"
-                    onClick={() => setExpandedId(isExpanded ? null : row.id)}
-                  >
-                    <td className="px-3 py-3 text-[var(--color-text-secondary)]">{formatDate(row.imported_at)}</td>
-                    <td className="px-3 py-3 font-semibold text-[var(--color-text-primary)]">
-                      {row.original_filename}
-                    </td>
-                    <td className="px-3 py-3 text-[var(--color-text-secondary)]">
-                      {FORMAT_LABELS[row.file_format]}
-                    </td>
-                    <td className="px-3 py-3 text-[var(--color-text-secondary)]">{row.import_type}</td>
-                    <td className="px-3 py-3 text-[var(--color-text-secondary)]">{row.total_rows}</td>
-                    <td className="px-3 py-3 text-[var(--color-text-secondary)]">{row.success_count}</td>
-                    <td className="px-3 py-3 text-[var(--color-text-secondary)]">{row.error_count}</td>
-                    <td className="px-3 py-3">
-                      <span className={`rounded-full px-3 py-1 text-xs font-semibold ${STATUS_STYLES[row.status]}`}>
+                  <tr className="hover:bg-gray-50" onClick={() => setExpandedId(isExpanded ? null : row.id)}>
+                    <td className="px-4 py-4 text-xs text-gray-500">{formatDate(row.imported_at)}</td>
+                    <td className="px-4 py-4 text-sm font-medium text-gray-900">{row.original_filename}</td>
+                    <td className="px-4 py-4 text-sm text-gray-500">{FORMAT_LABELS[row.file_format]}</td>
+                    <td className="px-4 py-4 text-sm text-gray-500">{row.import_type}</td>
+                    <td className="px-4 py-4 text-sm text-gray-900">{row.total_rows}</td>
+                    <td className="px-4 py-4 text-sm text-gray-900">{row.success_count}</td>
+                    <td className="px-4 py-4 text-sm text-gray-900">{row.error_count}</td>
+                    <td className="px-4 py-4">
+                      <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${STATUS_STYLES[row.status]}`}>
                         {row.status}
                       </span>
                     </td>
                   </tr>
                   {isExpanded ? (
-                    <tr className="border-t border-[var(--color-border)] bg-[var(--color-bg-muted)]">
-                      <td colSpan={8} className="px-4 py-3 text-sm text-[var(--color-text-secondary)]">
+                    <tr className="bg-gray-50">
+                      <td colSpan={8} className="px-4 py-3 text-sm text-gray-500">
                         {row.error_detail && row.error_detail.length > 0 ? (
                           <div className="space-y-2">
-                            <p className="text-xs uppercase tracking-widest text-[var(--color-text-secondary)]">
+                            <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
                               Errors
                             </p>
                             <ul className="space-y-1">

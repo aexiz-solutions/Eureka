@@ -13,12 +13,6 @@ const config: Config = {
         sans: ["DM Sans", "Segoe UI", "system-ui", "sans-serif"],
         mono: ["JetBrains Mono", "monospace"],
       },
-      colors: {
-        canvas: "#f6f7f8",
-        ink: "#11201b",
-        pine: "#185f4d",
-        sand: "#f2e5c4",
-      },
     },
   },
   plugins: [],

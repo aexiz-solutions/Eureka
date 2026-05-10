@@ -116,10 +116,10 @@ export default function ProductPanel() {
     : [];
 
   return (
-    <div className="flex h-full flex-col gap-3 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-4 shadow-sm">
+    <div className="flex h-full flex-col gap-3 border-r border-gray-200 bg-gray-50 p-4">
       <div>
-        <p className="text-xs uppercase tracking-wider text-[var(--color-text-secondary)]">Catalogue</p>
-        <p className="text-sm font-semibold text-[var(--color-text-primary)]">{products.length} products</p>
+        <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">Catalogue</p>
+        <p className="text-sm font-medium text-gray-900">{products.length} products</p>
       </div>
 
       <input
@@ -127,7 +127,7 @@ export default function ProductPanel() {
         value={search}
         onChange={(event) => setSearch(event.target.value)}
         placeholder="Search SKU, name, brand"
-        className="rounded-lg border border-[var(--color-border)] px-3 py-2 text-sm outline-none focus:border-[var(--color-blue-600)] focus:ring-2 focus:ring-[var(--color-blue-100)]"
+        className="rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:border-transparent focus:ring-2 focus:ring-blue-500"
       />
 
       <div className="flex flex-wrap gap-2">
@@ -136,10 +136,10 @@ export default function ProductPanel() {
             key={cat}
             type="button"
             onClick={() => setCategoryFilter(cat)}
-            className={`rounded-full border px-2.5 py-0.5 text-[11px] font-semibold transition ${
+            className={`rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors ${
               categoryFilter === cat
-                ? "border-[var(--color-blue-600)] bg-[var(--color-blue-600)] text-white"
-                : "border-[var(--color-border)] text-[var(--color-text-secondary)] hover:border-[var(--color-blue-600)]"
+                ? "bg-blue-100 text-blue-800"
+                : "bg-gray-100 text-gray-600 hover:bg-white"
             }`}
           >
             {cat === "all" ? "All" : cat}
@@ -149,53 +149,48 @@ export default function ProductPanel() {
 
       {shelves.length > 0 ? (
         <div>
-          <label className="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-text-secondary)]">
+          <label className="text-xs font-semibold uppercase tracking-wider text-gray-500">
             Add to shelf
           </label>
           <select
             value={targetShelf ?? ""}
             onChange={(event) => setTargetShelf(Number(event.target.value))}
-            className="mt-1 w-full rounded-lg border border-[var(--color-border)] px-2 py-1.5 text-xs outline-none focus:border-[var(--color-blue-600)]"
+            className="mt-1 w-full rounded-md border border-gray-200 bg-white px-2 py-1.5 text-xs text-gray-900 outline-none focus:ring-2 focus:ring-blue-500"
           >
             {shelves.map((shelf) => (
               <option key={shelf.shelf_number} value={shelf.shelf_number}>
-                Shelf {shelf.shelf_number} — {shelf.tier.replace("_", " ")}
+                Shelf {shelf.shelf_number} - {shelf.tier.replace("_", " ")}
               </option>
             ))}
           </select>
         </div>
       ) : null}
 
-      <div className="flex-1 overflow-y-auto rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-muted)]">
+      <div className="flex-1 overflow-y-auto rounded-lg border border-gray-200 bg-white">
         {loading ? (
-          <div className="flex h-full items-center justify-center text-xs text-[var(--color-text-secondary)]">
-            Loading...
-          </div>
+          <div className="flex h-full items-center justify-center text-xs text-gray-500">Loading...</div>
         ) : error ? (
-          <div className="p-3 text-xs text-[var(--color-status-red-text)]">{error}</div>
+          <div className="p-3 text-xs text-red-800">{error}</div>
         ) : filtered.length === 0 ? (
-          <div className="flex h-full items-center justify-center p-4 text-center text-xs text-[var(--color-text-secondary)]">
+          <div className="flex h-full items-center justify-center p-4 text-center text-xs text-gray-500">
             No products match your search.
           </div>
         ) : (
-          <ul className="divide-y divide-[var(--color-border)]">
+          <ul className="divide-y divide-gray-100">
             {filtered.map((product) => {
               const isPlaced = placedSkus.has(product.sku);
               return (
-                <li key={product.id} className="flex items-center gap-2 px-3 py-2">
+                <li key={product.id} className="flex items-center gap-2 px-3 py-2 text-xs text-gray-700 hover:bg-white">
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-xs font-semibold text-[var(--color-text-primary)]">
-                      {product.sku}
-                    </p>
-                    <p className="truncate text-[11px] text-[var(--color-text-secondary)]">
-                      {product.name}
-                    </p>
+                    <p className="truncate font-medium text-gray-900">{product.sku}</p>
+                    <p className="truncate text-xs text-gray-500">{product.name}</p>
                   </div>
+                  {isPlaced ? <span className="text-green-600">Placed</span> : null}
                   <button
                     type="button"
                     onClick={() => handleAdd(product)}
                     disabled={isPlaced || targetShelf === null}
-                    className="rounded-full border border-[var(--color-blue-600)] bg-[var(--color-blue-100)] px-2 py-1 text-[11px] font-semibold text-[var(--color-blue-600)] transition hover:bg-[var(--color-blue-100)] disabled:cursor-not-allowed disabled:opacity-40"
+                    className="rounded-md border border-blue-600 bg-white px-2 py-1 text-xs font-medium text-blue-600 transition-colors hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     {isPlaced ? "On canvas" : "Add"}
                   </button>
@@ -206,9 +201,7 @@ export default function ProductPanel() {
         )}
       </div>
 
-      {statusMessage ? (
-        <p className="text-[11px] font-semibold text-[var(--color-blue-600)]">{statusMessage}</p>
-      ) : null}
+      {statusMessage ? <p className="text-xs font-medium text-blue-600">{statusMessage}</p> : null}
     </div>
   );
 }

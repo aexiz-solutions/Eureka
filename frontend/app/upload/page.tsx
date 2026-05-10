@@ -1,16 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
+import ImportHistory from "@/components/ingestion/ImportHistory";
 import ProductImporter from "@/components/products/ProductImporter";
 import SalesDataImporter from "@/components/sales/SalesDataImporter";
 import StoresImporter from "@/components/stores/StoresImporter";
-import ImportHistory from "@/components/ingestion/ImportHistory";
 import { api } from "@/lib/api";
 import { useAuthStore } from "@/store/authStore";
 
-type Tab = "stores" | "products" | "sales";
+type Tab = "products" | "sales" | "stores";
 
 interface StoreSummary {
   id: string;
@@ -23,30 +23,17 @@ interface StoreListResponse {
   total: number;
 }
 
-const TABS: Array<{ key: Tab; label: string; description: string }> = [
-  {
-    key: "stores",
-    label: "1. Stores",
-    description: "Upload the list of stores you operate. Eureka parses names into country → state → city.",
-  },
-  {
-    key: "products",
-    label: "2. Products",
-    description: "Upload your product master so SKUs, dimensions, and categories are available for planograms.",
-  },
-  {
-    key: "sales",
-    label: "3. Sales",
-    description: "Upload sales for any store to drive ranking, facing counts, and confidence scoring.",
-  },
+const TABS: Array<{ key: Tab; label: string }> = [
+  { key: "products", label: "Products" },
+  { key: "sales", label: "Sales" },
+  { key: "stores", label: "Stores" },
 ];
 
 export default function UploadPage() {
   const router = useRouter();
   const initializeAuth = useAuthStore((state) => state.initializeAuth);
-  const user = useAuthStore((state) => state.user);
 
-  const [activeTab, setActiveTab] = useState<Tab>("stores");
+  const [activeTab, setActiveTab] = useState<Tab>("products");
   const [stores, setStores] = useState<StoreSummary[]>([]);
   const [storeRefreshKey, setStoreRefreshKey] = useState(0);
   const [salesStoreId, setSalesStoreId] = useState<string>("");
@@ -77,76 +64,41 @@ export default function UploadPage() {
 
   const refreshStores = () => setStoreRefreshKey((value) => value + 1);
 
-  const goToDashboard = () => router.push("/dashboard");
-
   return (
-    <main className="min-h-screen bg-[var(--color-bg-subtle)]">
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-6 py-8">
-        <header className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">
-                Data Ingestion
-              </p>
-              <h1 className="mt-2 text-3xl font-bold text-[var(--color-text-primary)]">
-                Welcome{user?.first_name ? `, ${user.first_name}` : ""} — let's get your data in.
-              </h1>
-              <p className="mt-2 max-w-2xl text-sm text-[var(--color-text-secondary)]">
-                Eureka generates planograms from your existing data. Upload stores, products, and sales —
-                in any order — then jump to the dashboard to see your store hierarchy and generate AI
-                planograms.
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={goToDashboard}
-              className="rounded-full bg-[var(--color-blue-600)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--color-blue-700)]"
-            >
-              Go to Dashboard →
-            </button>
+    <main className="min-h-screen bg-gray-50">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-6 py-8">
+        <header className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h1 className="text-xl font-semibold text-gray-900">Upload</h1>
+            <p className="mt-1 text-sm text-gray-500">
+              Import products, sales, and stores for planogram generation.
+            </p>
           </div>
-
-          <div className="mt-6 grid gap-3 sm:grid-cols-3">
-            {TABS.map((tab) => {
-              const completed =
-                (tab.key === "stores" && stores.length > 0) ||
-                (tab.key === "products" && false) ||
-                (tab.key === "sales" && false);
-              const isActive = activeTab === tab.key;
-              return (
-                <button
-                  key={tab.key}
-                  type="button"
-                  onClick={() => setActiveTab(tab.key)}
-                  className={`rounded-2xl border px-4 py-3 text-left transition ${
-                    isActive
-                      ? "border-[var(--color-blue-600)] bg-[var(--color-blue-100)]"
-                      : "border-[var(--color-border)] bg-[var(--color-bg)] hover:border-[var(--color-blue-600)]"
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm font-semibold text-[var(--color-text-primary)]">
-                      {tab.label}
-                    </p>
-                    {completed ? (
-                      <span className="rounded-full bg-[var(--color-status-green-bg)] px-2 py-0.5 text-[10px] font-semibold text-[var(--color-status-green-text)]">
-                        Done
-                      </span>
-                    ) : null}
-                  </div>
-                  <p className="mt-1 text-xs text-[var(--color-text-secondary)]">{tab.description}</p>
-                </button>
-              );
-            })}
-          </div>
+          <button
+            type="button"
+            onClick={() => router.push("/dashboard")}
+            className="rounded-md border border-blue-600 bg-white px-4 py-2 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-50"
+          >
+            Go to Dashboard
+          </button>
         </header>
 
-        {activeTab === "stores" ? (
-          <>
-            <StoresImporter onImported={refreshStores} />
-            <ImportHistory title="Store import history" fetchUrl="/api/v1/stores/import/history" />
-          </>
-        ) : null}
+        <div className="flex gap-1 border-b border-gray-200">
+          {TABS.map((tab) => (
+            <button
+              key={tab.key}
+              type="button"
+              onClick={() => setActiveTab(tab.key)}
+              className={`-mb-px border-b-2 px-4 py-2.5 text-sm font-medium transition-colors ${
+                activeTab === tab.key
+                  ? "border-blue-600 text-blue-600"
+                  : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-800"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
 
         {activeTab === "products" ? (
           <>
@@ -157,26 +109,25 @@ export default function UploadPage() {
 
         {activeTab === "sales" ? (
           <section className="space-y-4">
-            <div className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
-              <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">Sales</p>
-              <h2 className="mt-1 text-xl font-bold text-[var(--color-text-primary)]">Upload sales by store</h2>
-              <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
+            <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+              <h2 className="text-base font-semibold text-gray-900">Upload sales by store</h2>
+              <p className="mt-0.5 text-sm text-gray-500">
                 Sales data must be tied to a specific store. Pick a store, set the period, and upload.
               </p>
 
               {stores.length === 0 ? (
-                <p className="mt-4 rounded-xl border border-[var(--color-status-yellow-text)] bg-[var(--color-status-yellow-bg)] px-3 py-2 text-sm text-[var(--color-status-yellow-text)]">
-                  Upload at least one store first (in the Stores tab) before uploading sales.
+                <p className="mt-4 rounded-md border border-yellow-200 bg-yellow-100 px-3 py-2 text-sm text-yellow-800">
+                  Upload at least one store in the Stores tab before uploading sales.
                 </p>
               ) : (
                 <div className="mt-4 max-w-md">
-                  <label className="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-text-secondary)]">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-gray-500">
                     Store
                   </label>
                   <select
                     value={salesStoreId}
                     onChange={(event) => setSalesStoreId(event.target.value)}
-                    className="mt-1 w-full rounded-lg border border-[var(--color-border)] px-3 py-2 text-sm outline-none focus:border-[var(--color-blue-600)]"
+                    className="mt-1 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     {stores.map((store) => (
                       <option key={store.id} value={store.id}>
@@ -197,6 +148,13 @@ export default function UploadPage() {
               />
             ) : null}
           </section>
+        ) : null}
+
+        {activeTab === "stores" ? (
+          <>
+            <StoresImporter onImported={refreshStores} />
+            <ImportHistory title="Store import history" fetchUrl="/api/v1/stores/import/history" />
+          </>
         ) : null}
       </div>
     </main>

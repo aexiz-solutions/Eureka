@@ -74,38 +74,32 @@ export default function ExportMenu({ planogramId, disabled }: ExportMenuProps) {
         type="button"
         onClick={() => setOpen((value) => !value)}
         disabled={disabled || !planogramId}
-        className="rounded-full border border-[var(--color-blue-600)] px-4 py-2 text-sm font-semibold text-[var(--color-blue-600)] transition hover:bg-[var(--color-blue-100)] disabled:opacity-40"
+        className="rounded-md border border-blue-600 bg-white px-4 py-2 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-50 disabled:opacity-50"
       >
-        Export ▼
+        Export
       </button>
 
       {open ? (
-        <div className="absolute right-0 top-full z-30 mt-2 w-56 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-2 shadow-lg">
+        <div className="absolute right-0 top-full z-30 mt-2 w-56 rounded-lg border border-gray-200 bg-white p-2 shadow-md">
           <button
             type="button"
             onClick={() => void handleDownload("jpeg")}
             disabled={busy !== null}
-            className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm text-[var(--color-text-primary)] hover:bg-[var(--color-bg-muted)] disabled:opacity-50"
+            className="flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm text-gray-900 hover:bg-gray-100 disabled:opacity-50"
           >
             <span>Export as JPEG</span>
-            {busy === "jpeg" ? (
-              <span className="text-xs text-[var(--color-text-secondary)]">...</span>
-            ) : null}
+            {busy === "jpeg" ? <span className="text-xs text-gray-500">...</span> : null}
           </button>
           <button
             type="button"
             onClick={() => void handleDownload("pptx")}
             disabled={busy !== null}
-            className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm text-[var(--color-text-primary)] hover:bg-[var(--color-bg-muted)] disabled:opacity-50"
+            className="flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm text-gray-900 hover:bg-gray-100 disabled:opacity-50"
           >
             <span>Export as PowerPoint</span>
-            {busy === "pptx" ? (
-              <span className="text-xs text-[var(--color-text-secondary)]">...</span>
-            ) : null}
+            {busy === "pptx" ? <span className="text-xs text-gray-500">...</span> : null}
           </button>
-          {error ? (
-            <p className="mt-1 px-3 pb-2 text-[11px] text-[var(--color-status-red-text)]">{error}</p>
-          ) : null}
+          {error ? <p className="mt-1 px-3 pb-2 text-xs text-red-800">{error}</p> : null}
         </div>
       ) : null}
     </div>

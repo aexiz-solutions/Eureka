@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
 
 export type StoreType = "supermarket" | "convenience" | "specialty";
 
@@ -24,12 +24,6 @@ const TYPE_LABELS: Record<StoreType, string> = {
   supermarket: "Supermarket",
   convenience: "Convenience",
   specialty: "Specialty",
-};
-
-const TYPE_STYLES: Record<StoreType, string> = {
-  supermarket: "bg-[var(--color-blue-100)] text-[var(--color-blue-800)]",
-  convenience: "bg-[var(--color-blue-100)] text-[var(--color-blue-800)]",
-  specialty: "bg-[var(--color-blue-100)] text-[var(--color-blue-800)]",
 };
 
 export default function StoreCard({ store, onRename, onDelete }: StoreCardProps) {
@@ -79,22 +73,22 @@ export default function StoreCard({ store, onRename, onDelete }: StoreCardProps)
   };
 
   return (
-    <article className="group flex h-full flex-col justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-5 shadow-sm transition hover:-translate-y-1 hover:border-[var(--color-blue-600)] hover:shadow-lg">
+    <article className="flex h-full flex-col justify-between rounded-lg border border-gray-200 bg-white p-5 shadow-sm transition-colors hover:border-blue-600">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">Store</p>
-          <h3 className="mt-2 text-xl font-semibold text-[var(--color-text-primary)]">{store.name}</h3>
+          <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">Store</p>
+          <h3 className="mt-1 text-base font-semibold text-gray-900">{store.name}</h3>
         </div>
         <details className="relative">
-          <summary className="flex h-8 w-8 cursor-pointer list-none items-center justify-center rounded-full text-[var(--color-text-secondary)] transition hover:bg-[var(--color-bg-muted)]">
+          <summary className="flex h-8 w-8 cursor-pointer list-none items-center justify-center rounded-md text-gray-500 transition-colors hover:bg-gray-100">
             ...
           </summary>
-          <div className="absolute right-0 z-10 mt-2 w-36 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] p-2 text-sm shadow-lg">
+          <div className="absolute right-0 z-10 mt-2 w-36 rounded-lg border border-gray-200 bg-white p-2 text-sm shadow-md">
             <button
               type="button"
               onClick={handleRename}
               disabled={busyAction === "rename"}
-              className="w-full rounded-lg px-3 py-2 text-left text-[var(--color-text-primary)] transition hover:bg-[var(--color-bg-muted)]"
+              className="w-full rounded-md px-3 py-2 text-left text-gray-900 transition-colors hover:bg-gray-100"
             >
               {busyAction === "rename" ? "Renaming..." : "Rename"}
             </button>
@@ -102,7 +96,7 @@ export default function StoreCard({ store, onRename, onDelete }: StoreCardProps)
               type="button"
               onClick={handleDelete}
               disabled={busyAction === "delete"}
-              className="mt-1 w-full rounded-lg px-3 py-2 text-left text-[var(--color-status-red-text)] transition hover:bg-[var(--color-status-red-bg)]"
+              className="mt-1 w-full rounded-md px-3 py-2 text-left text-red-800 transition-colors hover:bg-red-100"
             >
               {busyAction === "delete" ? "Deleting..." : "Delete"}
             </button>
@@ -111,22 +105,22 @@ export default function StoreCard({ store, onRename, onDelete }: StoreCardProps)
       </div>
 
       <div className="mt-4 flex flex-wrap items-center gap-3">
-        <span className={`rounded-full px-3 py-1 text-xs font-semibold ${TYPE_STYLES[store.store_type]}`}>
+        <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
           {TYPE_LABELS[store.store_type]}
         </span>
-        <span className="text-sm text-[var(--color-text-secondary)]">
+        <span className="text-sm text-gray-500">
           {store.width_m}m x {store.height_m}m
         </span>
       </div>
 
-      <div className="mt-4 flex items-center justify-between text-sm text-[var(--color-text-secondary)]">
+      <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
         <span>Created {createdLabel}</span>
         <button
           type="button"
           onClick={() => router.push(`/stores/${store.id}/planogram/latest`)}
-          className="font-semibold text-[var(--color-blue-600)] transition hover:text-[var(--color-blue-700)]"
+          className="font-medium text-blue-600 transition-colors hover:text-blue-700"
         >
-          Open Planogram {"->"}
+          Open Planogram
         </button>
       </div>
     </article>

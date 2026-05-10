@@ -100,45 +100,43 @@ export default function FileUploader({
   });
 
   return (
-    <section className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
+    <section className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <p className="text-sm font-semibold text-[var(--color-text-primary)]">{label}</p>
-          <p className="mt-1 text-xs text-[var(--color-text-secondary)]">{hint}</p>
+          <p className="text-sm font-medium text-gray-900">{label}</p>
+          <p className="mt-1 text-xs text-gray-500">{hint}</p>
         </div>
-        <span className="rounded-full border border-[var(--color-border)] bg-[var(--color-bg-muted)] px-3 py-1 text-xs text-[var(--color-text-secondary)]">
+        <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
           Max {maxSizeMB} MB
         </span>
       </div>
 
       <div
         {...getRootProps()}
-        className={`mt-4 flex flex-col items-center justify-center rounded-2xl border-2 border-dashed px-6 py-8 text-center transition ${
-          isDragActive
-            ? "border-[var(--color-blue-600)] bg-[var(--color-blue-100)]"
-            : "border-[var(--color-border)] bg-[var(--color-bg)]"
-        } ${isUploading ? "opacity-60" : "hover:border-[var(--color-blue-600)]"}`}
+        className={`mt-4 flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-10 text-center text-sm text-gray-400 transition-colors ${
+          isDragActive ? "border-blue-400 bg-blue-50" : "border-gray-200 hover:border-blue-400 hover:bg-blue-50"
+        } ${isUploading ? "opacity-60" : ""}`}
       >
         <input {...getInputProps()} />
-        <p className="text-sm font-semibold text-[var(--color-text-primary)]">
+        <p className="text-sm font-medium text-gray-900">
           {isDragActive ? "Drop the file here" : "Drag and drop a file here"}
         </p>
-        <p className="mt-2 text-xs text-[var(--color-text-secondary)]">Or click to browse your computer</p>
+        <p className="mt-2 text-xs text-gray-500">Or click to browse your computer</p>
       </div>
 
       {selectedFile ? (
-        <div className="mt-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-muted)] px-4 py-3">
+        <div className="mt-4 rounded-md border border-gray-200 bg-gray-50 px-4 py-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
-              <p className="text-sm font-semibold text-[var(--color-text-primary)]">{selectedFile.name}</p>
-              <p className="text-xs text-[var(--color-text-secondary)]">
-                {formatBytes(selectedFile.size)} · {detectFormat(selectedFile.name)}
+              <p className="text-sm font-medium text-gray-900">{selectedFile.name}</p>
+              <p className="text-xs text-gray-500">
+                {formatBytes(selectedFile.size)} / {detectFormat(selectedFile.name)}
               </p>
             </div>
             <button
               type="button"
               onClick={() => setSelectedFile(null)}
-              className="rounded-full border border-[var(--color-blue-600)] px-3 py-1 text-xs text-[var(--color-blue-600)] transition hover:bg-[var(--color-blue-100)]"
+              className="rounded-md border border-blue-600 bg-white px-3 py-1 text-xs font-medium text-blue-600 transition-colors hover:bg-blue-50"
               disabled={isUploading}
             >
               Clear
@@ -148,18 +146,18 @@ export default function FileUploader({
       ) : null}
 
       {error ? (
-        <p className="mt-3 rounded-lg bg-[var(--color-status-red-bg)] px-3 py-2 text-sm text-[var(--color-status-red-text)]">
+        <p className="mt-3 rounded-md border border-red-200 bg-red-100 px-3 py-2 text-sm text-red-800">
           {error}
         </p>
       ) : null}
 
-      <div className="mt-4 flex items-center justify-between">
-        <p className="text-xs text-[var(--color-text-secondary)]">Accepted: {accept}</p>
+      <div className="mt-4 flex items-center justify-between gap-3">
+        <p className="text-xs text-gray-500">Accepted: {accept}</p>
         <button
           type="button"
           onClick={() => selectedFile && onUpload(selectedFile)}
           disabled={!selectedFile || isUploading}
-          className="rounded-full bg-[var(--color-blue-600)] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--color-blue-700)] disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isUploading ? "Uploading..." : "Upload"}
         </button>

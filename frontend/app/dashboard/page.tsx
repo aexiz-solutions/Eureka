@@ -83,63 +83,60 @@ export default function DashboardPage() {
 
   return (
     <>
-      <main className="min-h-screen bg-[radial-gradient(circle_at_15%_20%,#f2e5c4_0%,#f6f7f8_45%,#eef2ef_100%)]">
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-8">
-          <header className="rounded-3xl border border-ink/10 bg-white/95 p-6 shadow">
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-ink/50">Dashboard</p>
-                <h1 className="mt-2 text-3xl font-bold text-ink">
-                  Welcome, {user?.first_name ?? user?.username ?? "there"}
-                </h1>
-                <p className="mt-1 text-sm text-ink/70">Plan: {planLabel}</p>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                <button
-                  type="button"
-                  onClick={() => router.push("/upload")}
-                  className="rounded-full border border-ink/20 px-4 py-2 text-sm font-semibold text-ink/80 transition hover:border-ink/40"
-                >
-                  Upload Data
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setIsCreateStoreOpen(true)}
-                  disabled={isPreparingPlanogram}
-                  className="rounded-full bg-pine px-4 py-2 text-sm font-semibold text-white"
-                >
-                  + New Store
-                </button>
-                <button
-                  type="button"
-                  onClick={() => router.push("/account")}
-                  className="rounded-full border border-ink/20 px-4 py-2 text-sm font-semibold text-ink/80"
-                >
-                  Account
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    logout();
-                    router.push("/login");
-                  }}
-                  className="rounded-full border border-ink/20 px-4 py-2 text-sm font-semibold text-ink/80"
-                >
-                  Logout
-                </button>
-              </div>
+      <main className="min-h-screen bg-gray-50">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-6 py-8">
+          <header className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h1 className="text-xl font-semibold text-gray-900">Dashboard</h1>
+              <p className="mt-1 text-sm text-gray-500">
+                Welcome, {user?.first_name ?? user?.username ?? "there"} / Plan: {planLabel}
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => router.push("/upload")}
+                className="rounded-md border border-blue-600 bg-white px-4 py-2 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-50"
+              >
+                Upload Data
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsCreateStoreOpen(true)}
+                disabled={isPreparingPlanogram}
+                className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                + New Store
+              </button>
+              <button
+                type="button"
+                onClick={() => router.push("/account")}
+                className="rounded-md bg-transparent px-3 py-1.5 text-sm text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800"
+              >
+                Account
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  logout();
+                  router.push("/login");
+                }}
+                className="rounded-md bg-transparent px-3 py-1.5 text-sm text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800"
+              >
+                Logout
+              </button>
             </div>
           </header>
 
-          <section className="rounded-3xl border border-ink/15 bg-white/95 p-6 shadow">
-            <div className="flex items-center justify-between">
+          <section className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+            <div className="flex items-center justify-between gap-4">
               <div>
-                <h2 className="text-lg font-semibold text-ink">Store hierarchy</h2>
-                <p className="text-xs text-ink/60">
-                  Country → State → City → Locality. Click a store to open its planogram workspace.
+                <h2 className="text-base font-semibold text-gray-900">Store hierarchy</h2>
+                <p className="mt-0.5 text-sm text-gray-500">
+                  Country, state, city, and locality. Click a store to open its planogram workspace.
                 </p>
               </div>
-              <span className="text-xs text-ink/60">
+              <span className="text-sm text-gray-500">
                 {storesLoading
                   ? "Loading..."
                   : `${stores.length} ${stores.length === 1 ? "store" : "stores"}`}
@@ -147,7 +144,7 @@ export default function DashboardPage() {
             </div>
 
             {error ? (
-              <p className="mt-4 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
+              <p className="mt-4 rounded-md border border-red-200 bg-red-100 px-3 py-2 text-sm text-red-800">
                 {error}
               </p>
             ) : null}
@@ -164,14 +161,16 @@ export default function DashboardPage() {
               <div className="space-y-3">
                 {selectedStore ? (
                   <>
-                    <div className="rounded-2xl border border-ink/10 bg-white p-4 shadow-sm">
+                    <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
-                          <p className="text-xs uppercase tracking-[0.2em] text-ink/50">Selected store</p>
-                          <p className="mt-1 truncate text-base font-semibold text-ink">
+                          <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                            Selected store
+                          </p>
+                          <p className="mt-1 truncate text-base font-semibold text-gray-900">
                             {selectedStore.display_name ?? selectedStore.raw_name}
                           </p>
-                          <p className="mt-1 text-xs text-ink/60">
+                          <p className="mt-1 text-xs text-gray-500">
                             {[
                               selectedStore.locality,
                               selectedStore.city,
@@ -182,15 +181,15 @@ export default function DashboardPage() {
                               .join(", ") || "Location unknown"}
                           </p>
                           {selectedStore.store_type ? (
-                            <p className="mt-1 text-xs text-ink/60">Type: {selectedStore.store_type}</p>
+                            <p className="mt-1 text-xs text-gray-500">Type: {selectedStore.store_type}</p>
                           ) : null}
                         </div>
                         <button
                           type="button"
                           onClick={() => router.push(`/stores/${selectedStore.id}`)}
-                          className="rounded-full bg-pine px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-pine/90"
+                          className="rounded-md bg-blue-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-blue-700"
                         >
-                          Open store →
+                          Open store
                         </button>
                       </div>
                     </div>
@@ -201,7 +200,7 @@ export default function DashboardPage() {
                     />
                   </>
                 ) : (
-                  <div className="rounded-2xl border border-dashed border-ink/20 bg-white/60 p-6 text-sm text-ink/60">
+                  <div className="rounded-lg border border-dashed border-gray-200 bg-white p-6 text-sm text-gray-500">
                     Click a store in the hierarchy to see details and data health.
                   </div>
                 )}

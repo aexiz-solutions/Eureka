@@ -67,17 +67,15 @@ export default function RegenerateButton({
         type="button"
         onClick={handleClick}
         disabled={working}
-        className="rounded-full border border-[var(--color-blue-600)] px-4 py-2 text-sm font-semibold text-[var(--color-blue-600)] transition hover:bg-[var(--color-blue-100)] disabled:opacity-40"
+        className="rounded-md border border-blue-600 bg-white px-4 py-2 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-50 disabled:opacity-50"
       >
         {working ? "Regenerating..." : "Regenerate"}
       </button>
 
       {confirming ? (
-        <div className="absolute right-0 top-full z-30 mt-2 w-80 rounded-2xl border border-[var(--color-status-yellow-text)] bg-[var(--color-status-yellow-bg)] p-4 shadow-lg">
-          <p className="text-sm font-semibold text-[var(--color-status-yellow-text)]">
-            Overwrite your edits?
-          </p>
-          <p className="mt-1 text-xs text-[var(--color-status-yellow-text)]">
+        <div className="absolute right-0 top-full z-30 mt-2 w-80 rounded-lg border border-yellow-200 bg-yellow-100 p-4 shadow-md">
+          <p className="text-sm font-medium text-yellow-800">Overwrite your edits?</p>
+          <p className="mt-1 text-xs text-yellow-800">
             This planogram has manual edits. Regenerating will replace the layout with a fresh
             auto-generated version. Your unsaved changes will be lost.
           </p>
@@ -85,7 +83,7 @@ export default function RegenerateButton({
             <button
               type="button"
               onClick={() => setConfirming(false)}
-              className="rounded-full px-3 py-1 text-xs font-semibold text-[var(--color-status-yellow-text)] hover:opacity-80"
+              className="rounded-md bg-transparent px-3 py-1.5 text-xs font-medium text-yellow-800 hover:bg-yellow-100"
             >
               Cancel
             </button>
@@ -93,9 +91,9 @@ export default function RegenerateButton({
               type="button"
               onClick={() => void runGeneration(true)}
               disabled={working}
-              className="rounded-full bg-[var(--color-status-yellow-text)] px-3 py-1 text-xs font-semibold text-white transition hover:opacity-90 disabled:opacity-60"
+              className="rounded-md bg-blue-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
             >
-              {working ? "Regenerating..." : "Yes, overwrite"}
+              {working ? "Regenerating..." : "Overwrite"}
             </button>
           </div>
         </div>

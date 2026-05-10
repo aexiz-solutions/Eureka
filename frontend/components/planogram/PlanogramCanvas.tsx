@@ -56,10 +56,7 @@ export default function PlanogramCanvas() {
 
   if (!planogramJson) {
     return (
-      <div
-        ref={containerRef}
-        className="flex h-full items-center justify-center text-sm text-[var(--color-text-secondary)]"
-      >
+      <div ref={containerRef} className="flex h-full items-center justify-center text-sm text-gray-500">
         Loading planogram...
       </div>
     );
@@ -68,10 +65,7 @@ export default function PlanogramCanvas() {
   const sortedShelves = [...planogramJson.shelves].sort((a, b) => a.shelf_number - b.shelf_number);
 
   return (
-    <div
-      ref={containerRef}
-      className="relative h-full w-full overflow-hidden rounded-2xl border border-[var(--color-border)] bg-white"
-    >
+    <div ref={containerRef} className="relative h-full w-full overflow-hidden rounded-lg border border-gray-200 bg-white">
       {layout && size.width > 0 ? (
         <Stage
           width={size.width}
@@ -83,19 +77,7 @@ export default function PlanogramCanvas() {
           }}
         >
           <Layer listening={false}>
-            {sortedShelves.map((shelf, index) => {
-              const shelfTop = TOP_PADDING + index * layout.shelfHeightPx;
-              return (
-                <Rect
-                  key={`bg-${shelf.shelf_number}`}
-                  x={LEFT_GUTTER}
-                  y={shelfTop}
-                  width={layout.drawableWidth}
-                  height={layout.shelfHeightPx - 2}
-                  fill="#FFFFFF"
-                />
-              );
-            })}
+            <Rect x={0} y={0} width={size.width} height={size.height} fill="#FFFFFF" />
 
             {sortedShelves.map((shelf, index) => {
               const shelfBottom = TOP_PADDING + (index + 1) * layout.shelfHeightPx - 2;
@@ -104,7 +86,7 @@ export default function PlanogramCanvas() {
                   key={`line-${shelf.shelf_number}`}
                   points={[LEFT_GUTTER, shelfBottom, LEFT_GUTTER + layout.drawableWidth, shelfBottom]}
                   stroke="#111827"
-                  strokeWidth={2}
+                  strokeWidth={1.5}
                 />
               );
             })}
@@ -118,8 +100,8 @@ export default function PlanogramCanvas() {
                   y={shelfTop + 8}
                   text={`Shelf ${shelf.shelf_number}\n${TIER_LABELS[shelf.tier] ?? "Mid"}`}
                   fontSize={11}
-                  fontStyle="bold"
-                  fill="#111827"
+                  fill="#6B7280"
+                  fontFamily="DM Sans"
                   width={LEFT_GUTTER - 20}
                 />
               );
@@ -130,15 +112,10 @@ export default function PlanogramCanvas() {
             {sortedShelves.flatMap((shelf, shelfIndex) => {
               const shelfTop = TOP_PADDING + shelfIndex * layout.shelfHeightPx;
               const blockHeight = layout.shelfHeightPx - 8;
-              const shelfLeft = LEFT_GUTTER;
-              const shelfRight = LEFT_GUTTER + layout.drawableWidth;
               return shelf.products.map((product) => {
-                const rawX = LEFT_GUTTER + product.position_x_cm * layout.cmToPx;
+                const xPx = LEFT_GUTTER + product.position_x_cm * layout.cmToPx;
                 const yPx = shelfTop + 4;
                 const widthPx = Math.max(24, product.total_width_cm * layout.cmToPx);
-                const maxX = shelfRight - widthPx;
-                if (maxX < shelfLeft) return null;
-                const xPx = Math.min(Math.max(rawX, shelfLeft), maxX);
                 return (
                   <ProductBlock
                     key={`${shelf.shelf_number}-${product.sku}`}

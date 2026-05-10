@@ -1,13 +1,13 @@
 import type { HTMLAttributes } from "react";
 
-const baseClasses = "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold";
+const baseClasses = "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium";
 
 const variantClasses = {
-  green: "bg-[var(--color-status-green-bg)] text-[var(--color-status-green-text)]",
-  yellow: "bg-[var(--color-status-yellow-bg)] text-[var(--color-status-yellow-text)]",
-  red: "bg-[var(--color-status-red-bg)] text-[var(--color-status-red-text)]",
-  blue: "bg-[var(--color-blue-100)] text-[var(--color-blue-800)]",
-  neutral: "bg-[var(--color-bg-muted)] text-[var(--color-text-secondary)]",
+  green: "bg-green-100 text-green-700",
+  yellow: "bg-yellow-100 text-yellow-800",
+  red: "bg-red-100 text-red-800",
+  blue: "bg-blue-100 text-blue-800",
+  gray: "bg-gray-100 text-gray-600",
 } as const;
 
 type BadgeVariant = keyof typeof variantClasses;

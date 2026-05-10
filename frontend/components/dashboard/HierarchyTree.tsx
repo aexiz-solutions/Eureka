@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
 
 export interface HierarchyStore {
   id: string;
@@ -31,6 +31,11 @@ interface TreeNode {
 }
 
 const UNKNOWN = "Unknown";
+const INDENT_CLASSES = ["pl-1", "pl-5", "pl-9", "pl-14", "pl-16", "pl-20"];
+
+function indentClass(depth: number) {
+  return INDENT_CLASSES[Math.min(depth, INDENT_CLASSES.length - 1)];
+}
 
 function groupBy<T>(items: T[], key: (item: T) => string): Map<string, T[]> {
   const map = new Map<string, T[]>();
@@ -64,7 +69,6 @@ function buildTree(stores: HierarchyStore[]): TreeNode[] {
 
         for (const [locality, localStores] of byLocality) {
           if (locality.length === 0) {
-            // No locality — attach stores directly under city, no extra node
             continue;
           }
           localityNodes.push({
@@ -76,7 +80,6 @@ function buildTree(stores: HierarchyStore[]): TreeNode[] {
           });
         }
 
-        // Stores in this city without a locality go straight under the city node
         const directStores = cityStores
           .filter((store) => !(store.locality && store.locality.trim()))
           .map((store) => store.id);
@@ -136,20 +139,17 @@ function StoreLeafRow({
     <button
       type="button"
       onClick={onClick}
-      className={`flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-sm transition ${
-        selected
-          ? "bg-[var(--color-blue-100)] text-[var(--color-blue-800)]"
-          : "text-[var(--color-text-primary)] hover:bg-[var(--color-bg-muted)]"
+      className={`flex w-full items-center justify-between rounded-md py-1.5 pr-2 text-left text-sm transition-colors ${indentClass(depth + 1)} ${
+        selected ? "bg-blue-50 font-medium text-blue-700" : "text-gray-900 hover:bg-gray-50"
       }`}
-      style={{ paddingLeft: depth * 16 + 24 }}
     >
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium">{store.display_name ?? store.raw_name}</p>
-        <p className="truncate text-[10px] uppercase tracking-wider text-[var(--color-text-secondary)]">
-          {[store.locality, store.city, store.store_type].filter(Boolean).join(" · ") || "Store"}
+        <p className="truncate text-xs text-gray-500">
+          {[store.locality, store.city, store.store_type].filter(Boolean).join(" / ") || "Store"}
         </p>
       </div>
-      <span className="ml-2 shrink-0 text-[10px] font-mono text-[var(--color-text-secondary)]">
+      <span className="ml-2 shrink-0 font-mono text-xs text-gray-500">
         {store.parse_confidence !== null && store.parse_confidence !== undefined
           ? `${Math.round((store.parse_confidence || 0) * 100)}%`
           : ""}
@@ -175,20 +175,15 @@ function NodeRow({
       <button
         type="button"
         onClick={() => toggle(node.key)}
-        className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm font-semibold text-[var(--color-text-primary)] transition hover:bg-[var(--color-bg-muted)]"
-        style={{ paddingLeft: depth * 16 + 4 }}
+        className={`flex w-full items-center gap-2 rounded-md py-1.5 pr-2 text-left text-sm font-medium text-gray-900 transition-colors hover:bg-gray-50 ${indentClass(depth)}`}
       >
         <span
-          className={`inline-block w-3 text-center text-[var(--color-text-secondary)] transition ${
-            isOpen ? "rotate-90" : ""
-          }`}
+          className={`inline-block w-3 text-center text-gray-500 transition ${isOpen ? "rotate-90" : ""}`}
         >
-          {hasChildren ? "›" : "·"}
+          {hasChildren ? ">" : "-"}
         </span>
         <span className="flex-1">{node.label}</span>
-        <span className="text-[11px] font-mono text-[var(--color-text-secondary)]">
-          {node.storeCount}
-        </span>
+        <span className="font-mono text-xs text-gray-500">{node.storeCount}</span>
       </button>
 
       {isOpen ? (
@@ -241,7 +236,6 @@ export default function HierarchyTree({
 
   const [expanded, setExpanded] = useState<Set<string>>(() => {
     const initial = new Set<string>();
-    // Default-expand the first country and its states
     if (tree.length > 0) {
       initial.add(tree[0].key);
       for (const stateNode of tree[0].children) {
@@ -272,12 +266,12 @@ export default function HierarchyTree({
 
   if (stores.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-[var(--color-border)] bg-[var(--color-bg)] p-6 text-center text-sm text-[var(--color-text-secondary)]">
+      <div className="rounded-lg border border-dashed border-gray-200 bg-white p-6 text-center text-sm text-gray-500">
         <p>No stores yet.</p>
         <button
           type="button"
           onClick={() => router.push("/upload")}
-          className="mt-3 rounded-full bg-[var(--color-blue-600)] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[var(--color-blue-700)]"
+          className="mt-3 rounded-md bg-blue-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-blue-700"
         >
           Upload stores
         </button>
@@ -286,7 +280,7 @@ export default function HierarchyTree({
   }
 
   return (
-    <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-3 shadow-sm">
+    <div className="rounded-lg border border-gray-200 bg-white p-3 shadow-sm">
       <div className="space-y-0.5">
         {tree.map((node) => (
           <NodeRow

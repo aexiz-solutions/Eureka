@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 
-import { api } from "@/lib/api";
 import FileUploader from "@/components/ingestion/FileUploader";
 import ImportSummaryCard from "@/components/ingestion/ImportSummaryCard";
 import type { ImportSummaryResponse } from "@/components/ingestion/types";
+import { api } from "@/lib/api";
 
 interface StoresImporterProps {
   onImported?: () => void;
@@ -56,17 +56,20 @@ export default function StoresImporter({ onImported }: StoresImporterProps) {
   };
 
   return (
-    <section className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
+    <section className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
       <header>
-        <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">Stores</p>
-        <h2 className="mt-1 text-xl font-bold text-[var(--color-text-primary)]">Upload your store list</h2>
-        <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
-          Eureka parses store names to build the country → state → city hierarchy automatically. Required column: <code>store_name</code>. Optional: <code>city</code>, <code>state</code>, <code>store_type</code>.
+        <h2 className="text-base font-semibold text-gray-900">Upload your store list</h2>
+        <p className="mt-1 text-sm text-gray-500">
+          Eureka parses store names to build the country, state, and city hierarchy automatically. Required
+          column: <code className="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-xs text-gray-600">store_name</code>.
+          Optional: <code className="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-xs text-gray-600">city</code>,{" "}
+          <code className="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-xs text-gray-600">state</code>,{" "}
+          <code className="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-xs text-gray-600">store_type</code>.
         </p>
         <button
           type="button"
           onClick={downloadSample}
-          className="mt-3 text-xs font-semibold text-[var(--color-blue-600)] hover:underline"
+          className="mt-3 text-xs font-medium text-blue-600 hover:text-blue-700 hover:underline"
         >
           Download sample CSV
         </button>
@@ -82,7 +85,7 @@ export default function StoresImporter({ onImported }: StoresImporterProps) {
       </div>
 
       {error ? (
-        <p className="mt-4 rounded-xl border border-[var(--color-status-red-text)] bg-[var(--color-status-red-bg)] px-3 py-2 text-sm text-[var(--color-status-red-text)]">
+        <p className="mt-4 rounded-md border border-red-200 bg-red-100 px-3 py-2 text-sm text-red-800">
           {error}
         </p>
       ) : null}

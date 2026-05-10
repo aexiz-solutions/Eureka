@@ -1,8 +1,8 @@
 "use client";
 
 import axios from "axios";
-import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { api } from "@/lib/api";
 import { isUuid, listPlanogramsForStore } from "@/lib/planogramRouting";
@@ -29,6 +29,18 @@ interface ProductListResponse {
 interface SalesListResponse {
   data: unknown[];
   total: number;
+}
+
+function ReadinessBadge({ label, ready }: { label: string; ready: boolean }) {
+  return (
+    <span
+      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+        ready ? "bg-green-100 text-green-700" : "bg-red-100 text-red-800"
+      }`}
+    >
+      {label}: {ready ? "Ready" : "Missing"}
+    </span>
+  );
 }
 
 export default function StoreLandingPage() {
@@ -120,121 +132,107 @@ export default function StoreLandingPage() {
   const latestPlanogram = planograms[0] ?? null;
 
   return (
-    <main className="min-h-screen bg-[var(--color-bg-subtle)]">
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-6 py-8">
+    <main className="min-h-screen bg-gray-50">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-6 py-8">
         <header className="flex flex-wrap items-center justify-between gap-3">
           <button
             type="button"
             onClick={() => router.push("/dashboard")}
-            className="rounded-full border border-[var(--color-blue-600)] px-4 py-2 text-sm text-[var(--color-blue-600)] transition hover:bg-[var(--color-blue-100)]"
+            className="rounded-md border border-blue-600 bg-white px-4 py-2 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-50"
           >
-            ← Dashboard
+            Dashboard
           </button>
           <button
             type="button"
             onClick={() => router.push(`/stores/${storeId}/data`)}
-            className="rounded-full border border-[var(--color-blue-600)] px-4 py-2 text-sm text-[var(--color-blue-600)] transition hover:bg-[var(--color-blue-100)]"
+            className="rounded-md border border-blue-600 bg-white px-4 py-2 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-50"
           >
-            Manage data for this store
+            Manage Data
           </button>
         </header>
 
         {loading ? (
-          <div className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-bg)] p-12 text-center text-sm text-[var(--color-text-secondary)] shadow-sm">
+          <div className="rounded-lg border border-gray-200 bg-white p-12 text-center text-sm text-gray-500 shadow-sm">
             Loading store...
           </div>
         ) : !store ? (
-          <div className="rounded-3xl border border-[var(--color-status-red-text)] bg-[var(--color-status-red-bg)] p-6 text-sm text-[var(--color-status-red-text)]">
+          <div className="rounded-lg border border-red-200 bg-red-100 p-6 text-sm text-red-800">
             {error || "Store not available."}
           </div>
         ) : (
           <>
-            <section className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
-              <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">Store</p>
-              <h1 className="mt-2 text-3xl font-bold text-[var(--color-text-primary)]">
+            <section className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+              <h1 className="text-xl font-semibold text-gray-900">
                 {store.display_name ?? store.raw_name}
               </h1>
-              <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
+              <p className="mt-1 text-sm text-gray-500">
                 {[store.locality, store.city, store.state, store.country]
                   .filter(Boolean)
                   .join(", ") || "Location not parsed yet"}
               </p>
-              <div className="mt-4 flex flex-wrap gap-2 text-xs">
+              <div className="mt-4 flex flex-wrap gap-2">
                 {store.store_type ? (
-                  <span className="rounded-full bg-[var(--color-bg-muted)] px-3 py-1 font-semibold text-[var(--color-text-secondary)]">
+                  <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
                     {store.store_type}
                   </span>
                 ) : null}
                 {store.detected_chain ? (
-                  <span className="rounded-full bg-[var(--color-bg-muted)] px-3 py-1 font-semibold text-[var(--color-text-secondary)]">
+                  <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
                     {store.detected_chain}
                   </span>
                 ) : null}
                 {store.parse_confidence !== null && store.parse_confidence !== undefined ? (
-                  <span className="rounded-full bg-[var(--color-bg-muted)] px-3 py-1 font-semibold text-[var(--color-text-secondary)]">
+                  <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
                     Parse confidence: {Math.round((store.parse_confidence || 0) * 100)}%
                   </span>
                 ) : null}
               </div>
             </section>
 
-            <section className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-bg)] p-8 shadow-sm">
+            <section className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
               <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">AI Planogram</p>
-                  <h2 className="mt-2 text-2xl font-bold text-[var(--color-text-primary)]">
-                    Generate a planogram from your data
-                  </h2>
-                  <p className="mt-2 max-w-xl text-sm text-[var(--color-text-secondary)]">
-                    Eureka uses your products, sales, and store metadata to auto-build a shelf layout
-                    optimised for this store type. You can edit the result on the canvas and export to
-                    JPEG or PowerPoint.
+                  <h2 className="text-base font-semibold text-gray-900">AI Planogram</h2>
+                  <p className="mt-1 max-w-xl text-sm text-gray-500">
+                    Generate a planogram from products, sales, and store metadata. You can edit the result
+                    on the canvas and export it later.
                   </p>
 
-                  <ul className="mt-4 space-y-1 text-sm text-[var(--color-text-secondary)]">
-                    <li>
-                      Products in catalogue:{" "}
-                      <span className="font-semibold">{productCount ?? "—"}</span>
-                    </li>
-                    <li>
-                      Sales rows for this store:{" "}
-                      <span className="font-semibold">{salesCount ?? "—"}</span>
-                    </li>
-                    <li>
-                      Existing planograms:{" "}
-                      <span className="font-semibold">{planograms.length}</span>
-                    </li>
-                  </ul>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <ReadinessBadge label="Products" ready={(productCount ?? 0) > 0} />
+                    <ReadinessBadge label="Sales data" ready={(salesCount ?? 0) > 0} />
+                    <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
+                      Planograms: {planograms.length}
+                    </span>
+                  </div>
 
                   {productCount !== null && productCount === 0 ? (
-                    <p className="mt-4 rounded-xl border border-[var(--color-status-yellow-text)] bg-[var(--color-status-yellow-bg)] px-3 py-2 text-sm text-[var(--color-status-yellow-text)]">
+                    <p className="mt-4 rounded-md border border-yellow-200 bg-yellow-100 px-3 py-2 text-sm text-yellow-800">
                       Upload at least one product before generating a planogram.{" "}
                       <button
                         type="button"
                         onClick={() => router.push("/upload")}
-                        className="font-semibold underline"
+                        className="font-medium underline"
                       >
-                        Upload products →
+                        Upload products
                       </button>
                     </p>
                   ) : null}
 
                   {error ? (
-                    <div className="mt-4 rounded-xl border border-[var(--color-status-red-text)] bg-[var(--color-status-red-bg)] px-3 py-2 text-sm text-[var(--color-status-red-text)]">
+                    <div className="mt-4 rounded-md border border-red-200 bg-red-100 px-3 py-2 text-sm text-red-800">
                       <p>{error}</p>
-                      {errorDetail ? (
-                        <p className="mt-1 text-xs text-[var(--color-status-red-text)]">{errorDetail}</p>
-                      ) : null}
+                      {errorDetail ? <p className="mt-1 text-xs text-red-800">{errorDetail}</p> : null}
                     </div>
                   ) : null}
                 </div>
 
-                <div className="flex flex-col items-stretch gap-3 lg:items-end">
+                <div className="flex flex-col items-stretch gap-2 lg:items-end">
                   <button
                     type="button"
                     onClick={() => void handleGenerate()}
                     disabled={!canGenerate || generating}
-                    className="rounded-full bg-[var(--color-blue-600)] px-6 py-3 text-base font-semibold text-white shadow transition hover:bg-[var(--color-blue-700)] disabled:cursor-not-allowed disabled:opacity-50"
+                    className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {generating
                       ? "Generating..."
@@ -248,9 +246,9 @@ export default function StoreLandingPage() {
                       onClick={() =>
                         router.push(`/stores/${storeId}/planogram/${latestPlanogram.id}`)
                       }
-                      className="rounded-full border border-[var(--color-blue-600)] px-4 py-2 text-sm font-semibold text-[var(--color-blue-600)] transition hover:bg-[var(--color-blue-100)]"
+                      className="rounded-md border border-blue-600 bg-white px-4 py-2 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-50"
                     >
-                      Open latest planogram →
+                      Open latest planogram
                     </button>
                   ) : null}
                 </div>
@@ -258,37 +256,50 @@ export default function StoreLandingPage() {
             </section>
 
             {planograms.length > 0 ? (
-              <section className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">All planograms for this store</h3>
+              <section className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-base font-semibold text-gray-900">Planograms</h3>
+                  <span className="text-sm text-gray-500">{planograms.length} requests</span>
+                </div>
                 <div className="mt-3 overflow-x-auto">
-                  <table className="min-w-full text-sm">
+                  <table className="w-full text-sm">
                     <thead>
-                      <tr className="text-left text-xs uppercase tracking-wider text-[var(--color-text-secondary)]">
-                        <th className="px-3 py-2">Name</th>
-                        <th className="px-3 py-2">Method</th>
-                        <th className="px-3 py-2">Edited</th>
-                        <th className="px-3 py-2">Updated</th>
-                        <th className="px-3 py-2"></th>
+                      <tr className="border-b border-gray-200">
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                          Name
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                          Method
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                          Edited
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                          Updated
+                        </th>
+                        <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">
+                          Action
+                        </th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="divide-y divide-gray-100">
                       {planograms.map((planogram) => (
-                        <tr key={planogram.id} className="border-t border-[var(--color-border)] text-[var(--color-text-secondary)]">
-                          <td className="px-3 py-2 font-medium text-[var(--color-text-primary)]">{planogram.name}</td>
-                          <td className="px-3 py-2">{planogram.generation_method}</td>
-                          <td className="px-3 py-2">
+                        <tr key={planogram.id} className="hover:bg-gray-50">
+                          <td className="px-4 py-4 text-sm font-medium text-gray-900">{planogram.name}</td>
+                          <td className="px-4 py-4 text-sm text-gray-500">{planogram.generation_method}</td>
+                          <td className="px-4 py-4 text-sm text-gray-500">
                             {planogram.is_user_edited ? "Yes" : "No"}
                           </td>
-                          <td className="px-3 py-2 text-xs text-[var(--color-text-secondary)]">
+                          <td className="px-4 py-4 text-xs text-gray-500">
                             {new Date(planogram.updated_at).toLocaleString()}
                           </td>
-                          <td className="px-3 py-2 text-right">
+                          <td className="px-4 py-4 text-right">
                             <button
                               type="button"
                               onClick={() =>
                                 router.push(`/stores/${storeId}/planogram/${planogram.id}`)
                               }
-                              className="rounded-full border border-[var(--color-blue-600)] px-3 py-1 text-xs font-semibold text-[var(--color-blue-600)] hover:bg-[var(--color-blue-100)]"
+                              className="rounded-md border border-blue-600 bg-white px-3 py-1.5 text-xs font-medium text-blue-600 hover:bg-blue-50"
                             >
                               Open
                             </button>

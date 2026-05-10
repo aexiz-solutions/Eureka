@@ -64,11 +64,11 @@ export default function ProductImporter({ onImported }: ProductImporterProps) {
         hint="CSV, Excel, or PDF with SKU and name columns."
       />
 
-      <details className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-5 shadow-sm">
-        <summary className="cursor-pointer text-sm font-semibold text-[var(--color-text-primary)]">
+      <details className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+        <summary className="cursor-pointer text-sm font-medium text-gray-900">
           Format guide
         </summary>
-        <div className="mt-3 text-sm text-[var(--color-text-secondary)]">
+        <div className="mt-3 text-sm text-gray-500">
           <p>Required columns: sku, name</p>
           <p className="mt-2">
             Optional columns: brand, category, width_cm, height_cm, depth_cm, price
@@ -76,7 +76,7 @@ export default function ProductImporter({ onImported }: ProductImporterProps) {
           <button
             type="button"
             onClick={downloadSample}
-            className="mt-4 rounded-full border border-[var(--color-blue-600)] px-4 py-2 text-xs font-semibold text-[var(--color-blue-600)] transition hover:bg-[var(--color-blue-100)]"
+            className="mt-4 rounded-md border border-blue-600 bg-white px-4 py-2 text-xs font-medium text-blue-600 transition-colors hover:bg-blue-50"
           >
             Download sample CSV
           </button>
@@ -84,7 +84,7 @@ export default function ProductImporter({ onImported }: ProductImporterProps) {
       </details>
 
       {error ? (
-        <p className="rounded-lg bg-[var(--color-status-red-bg)] px-3 py-2 text-sm text-[var(--color-status-red-text)]">
+        <p className="rounded-md border border-red-200 bg-red-100 px-3 py-2 text-sm text-red-800">
           {error}
         </p>
       ) : null}

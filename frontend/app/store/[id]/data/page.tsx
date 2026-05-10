@@ -39,12 +39,11 @@ export default function StoreDataPage() {
   );
 
   return (
-    <main className="min-h-screen bg-[var(--color-bg-subtle)] px-6 py-8">
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
-        <header className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
-          <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">Sales data</p>
-          <h1 className="mt-2 text-3xl font-bold text-[var(--color-text-primary)]">Store data management</h1>
-          <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
+    <main className="min-h-screen bg-gray-50 px-6 py-8">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
+        <header>
+          <h1 className="text-xl font-semibold text-gray-900">Store data management</h1>
+          <p className="mt-1 text-sm text-gray-500">
             Import files or enter manual sales records for this store.
           </p>
         </header>
@@ -55,11 +54,11 @@ export default function StoreDataPage() {
               key={tab.key}
               type="button"
               onClick={() => setActiveTab(tab.key)}
-              className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-                activeTab === tab.key
-                  ? "bg-[var(--color-blue-600)] text-white"
-                  : "border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:border-[var(--color-blue-600)]"
-              }`}
+            className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+              activeTab === tab.key
+                  ? "bg-blue-600 text-white"
+                  : "border border-gray-200 bg-white text-gray-500 hover:border-blue-600 hover:text-blue-600"
+            }`}
             >
               {tab.label}
             </button>

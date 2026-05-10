@@ -8,6 +8,9 @@ interface ManualSalesEntryProps {
   storeId: string;
 }
 
+const inputClasses =
+  "mt-2 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-transparent focus:ring-2 focus:ring-blue-500";
+
 export default function ManualSalesEntry({ storeId }: ManualSalesEntryProps) {
   const [sku, setSku] = useState("");
   const [unitsSold, setUnitsSold] = useState("");
@@ -45,36 +48,36 @@ export default function ManualSalesEntry({ storeId }: ManualSalesEntryProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
+    <form onSubmit={handleSubmit} className="space-y-4 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
       <div>
-        <p className="text-sm font-semibold text-[var(--color-text-primary)]">Manual sales entry</p>
-        <p className="mt-1 text-xs text-[var(--color-text-secondary)]">Enter a single SKU record for this store.</p>
+        <p className="text-sm font-medium text-gray-900">Manual sales entry</p>
+        <p className="mt-1 text-xs text-gray-500">Enter a single SKU record for this store.</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <label className="text-sm text-[var(--color-text-secondary)]">
+        <label className="text-sm text-gray-500">
           SKU
           <input
             type="text"
             required
             value={sku}
             onChange={(event) => setSku(event.target.value)}
-            className="mt-2 w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-[var(--color-text-primary)] outline-none focus:border-[var(--color-blue-600)] focus:ring-2 focus:ring-[var(--color-blue-100)]"
+            className={inputClasses}
           />
         </label>
-        <label className="text-sm text-[var(--color-text-secondary)]">
+        <label className="text-sm text-gray-500">
           Units sold (optional)
           <input
             type="number"
             min={0}
             value={unitsSold}
             onChange={(event) => setUnitsSold(event.target.value)}
-            className="mt-2 w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-[var(--color-text-primary)] outline-none focus:border-[var(--color-blue-600)] focus:ring-2 focus:ring-[var(--color-blue-100)]"
+            className={inputClasses}
           />
         </label>
       </div>
 
-      <label className="text-sm text-[var(--color-text-secondary)]">
+      <label className="text-sm text-gray-500">
         Revenue
         <input
           type="number"
@@ -83,40 +86,40 @@ export default function ManualSalesEntry({ storeId }: ManualSalesEntryProps) {
           required
           value={revenue}
           onChange={(event) => setRevenue(event.target.value)}
-          className="mt-2 w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-[var(--color-text-primary)] outline-none focus:border-[var(--color-blue-600)] focus:ring-2 focus:ring-[var(--color-blue-100)]"
+          className={inputClasses}
         />
       </label>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <label className="text-sm text-[var(--color-text-secondary)]">
+        <label className="text-sm text-gray-500">
           Period start
           <input
             type="date"
             required
             value={periodStart}
             onChange={(event) => setPeriodStart(event.target.value)}
-            className="mt-2 w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-[var(--color-text-primary)] outline-none focus:border-[var(--color-blue-600)] focus:ring-2 focus:ring-[var(--color-blue-100)]"
+            className={inputClasses}
           />
         </label>
-        <label className="text-sm text-[var(--color-text-secondary)]">
+        <label className="text-sm text-gray-500">
           Period end
           <input
             type="date"
             required
             value={periodEnd}
             onChange={(event) => setPeriodEnd(event.target.value)}
-            className="mt-2 w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-[var(--color-text-primary)] outline-none focus:border-[var(--color-blue-600)] focus:ring-2 focus:ring-[var(--color-blue-100)]"
+            className={inputClasses}
           />
         </label>
       </div>
 
       {error ? (
-        <p className="rounded-lg bg-[var(--color-status-red-bg)] px-3 py-2 text-sm text-[var(--color-status-red-text)]">
+        <p className="rounded-md border border-red-200 bg-red-100 px-3 py-2 text-sm text-red-800">
           {error}
         </p>
       ) : null}
       {success ? (
-        <p className="rounded-lg bg-[var(--color-status-green-bg)] px-3 py-2 text-sm text-[var(--color-status-green-text)]">
+        <p className="rounded-md border border-green-200 bg-green-100 px-3 py-2 text-sm text-green-600">
           {success}
         </p>
       ) : null}
@@ -124,7 +127,7 @@ export default function ManualSalesEntry({ storeId }: ManualSalesEntryProps) {
       <button
         type="submit"
         disabled={loading}
-        className="rounded-full bg-[var(--color-blue-600)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--color-blue-700)] disabled:cursor-not-allowed disabled:opacity-60"
+        className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {loading ? "Saving..." : "Save entry"}
       </button>

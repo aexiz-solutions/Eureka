@@ -11,33 +11,30 @@ interface ConfidenceBadgeProps {
 const TIER_STYLES: Record<string, { label: string; pill: string; bar: string }> = {
   high: {
     label: "High Confidence",
-    pill:
-      "bg-[var(--color-status-green-bg)] text-[var(--color-status-green-text)] border-[var(--color-status-green-text)]",
-    bar: "bg-[var(--color-status-green-text)]",
+    pill: "bg-green-100 text-green-700",
+    bar: "health-progress-blue",
   },
   medium: {
     label: "Medium Confidence",
-    pill:
-      "bg-[var(--color-status-yellow-bg)] text-[var(--color-status-yellow-text)] border-[var(--color-status-yellow-text)]",
-    bar: "bg-[var(--color-status-yellow-text)]",
+    pill: "bg-yellow-100 text-yellow-800",
+    bar: "health-progress-yellow",
   },
   low: {
-    label: "Low Confidence — Draft",
-    pill:
-      "bg-[var(--color-status-red-bg)] text-[var(--color-status-red-text)] border-[var(--color-status-red-text)]",
-    bar: "bg-[var(--color-status-red-text)]",
+    label: "Low Confidence - Draft",
+    pill: "bg-red-100 text-red-800",
+    bar: "health-progress-red",
   },
 };
 
 function CoverageRow({ label, value, barColor }: { label: string; value: number; barColor: string }) {
   const pct = Math.max(0, Math.min(100, value));
   return (
-    <div className="flex items-center gap-3 text-xs text-[var(--color-text-secondary)]">
+    <div className="flex items-center gap-3 text-xs text-gray-500">
       <span className="w-32 shrink-0">{label}</span>
-      <div className="h-2 flex-1 overflow-hidden rounded-full bg-[var(--color-bg-muted)]">
-        <div className={`h-full ${barColor}`} style={{ width: `${pct}%` }} />
-      </div>
-      <span className="w-12 shrink-0 text-right font-mono text-[11px]">{pct.toFixed(0)}%</span>
+      <progress className={`health-progress flex-1 ${barColor}`} value={pct} max={100}>
+        {pct.toFixed(0)}%
+      </progress>
+      <span className="w-12 shrink-0 text-right font-mono text-xs text-gray-600">{pct.toFixed(0)}%</span>
     </div>
   );
 }
@@ -51,32 +48,32 @@ export default function ConfidenceBadge({ confidence }: ConfidenceBadgeProps) {
 
   const tier = (confidence.tier || "low").toLowerCase();
   const style = TIER_STYLES[tier] ?? TIER_STYLES.low;
-  const indicator = tier === "high" ? "✓" : "⚠";
+  const indicator = tier === "high" ? "OK" : "!";
 
   return (
     <div className="relative">
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
-        className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition ${style.pill}`}
+        className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${style.pill}`}
       >
         <span aria-hidden>{indicator}</span>
         <span>{style.label}</span>
-        <span className="font-mono text-[11px] opacity-80">{confidence.score.toFixed(2)}</span>
+        <span className="font-mono text-xs opacity-80">{confidence.score.toFixed(2)}</span>
       </button>
 
       {open ? (
         <div
           role="dialog"
           aria-label="Confidence breakdown"
-          className="absolute right-0 top-full z-30 mt-2 w-80 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-4 shadow-lg"
+          className="absolute right-0 top-full z-30 mt-2 w-80 rounded-lg border border-gray-200 bg-white p-4 shadow-md"
         >
           <div className="flex items-center justify-between">
-            <p className="text-sm font-semibold text-[var(--color-text-primary)]">Confidence Breakdown</p>
+            <p className="text-sm font-medium text-gray-900">Confidence breakdown</p>
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="text-xs text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
+              className="rounded-md bg-transparent px-2 py-1 text-xs text-gray-500 hover:bg-gray-100 hover:text-gray-800"
             >
               Close
             </button>
@@ -93,7 +90,7 @@ export default function ConfidenceBadge({ confidence }: ConfidenceBadgeProps) {
             />
           </div>
 
-          <p className="mt-3 text-[11px] leading-relaxed text-[var(--color-text-secondary)]">
+          <p className="mt-3 text-xs leading-relaxed text-gray-500">
             Score is a weighted blend of these four signals. Improve the weakest input first to lift the
             tier.
           </p>

@@ -1,8 +1,8 @@
 "use client";
 
+import type Konva from "konva";
 import { useMemo } from "react";
 import { Group, Rect, Text } from "react-konva";
-import type Konva from "konva";
 
 import type { PlanogramProduct } from "@/types/planogram";
 
@@ -48,7 +48,7 @@ export default function ProductBlock({
         height={heightPx}
         fill={product.color_hex}
         stroke="#111827"
-        strokeWidth={isSelected ? 3 : 1}
+        strokeWidth={isSelected ? 2 : 1}
         cornerRadius={3}
       />
       <Text
@@ -56,8 +56,8 @@ export default function ProductBlock({
         y={6}
         text={product.sku}
         fontSize={11}
-        fontStyle="bold"
         fill={textColor}
+        fontFamily="DM Sans"
         width={Math.max(20, widthPx - 12)}
         ellipsis
         wrap="none"
@@ -66,22 +66,23 @@ export default function ProductBlock({
         x={6}
         y={22}
         text={product.name}
-        fontSize={9}
+        fontSize={11}
         fill={textColor}
+        fontFamily="DM Sans"
         width={Math.max(20, widthPx - 12)}
         ellipsis
         wrap="none"
       />
       {product.facing_count > 1 ? (
         <Text
-          x={Math.max(0, widthPx - 24)}
-          y={Math.max(0, heightPx - 14)}
+          x={Math.max(0, widthPx - 28)}
+          y={Math.max(0, heightPx - 16)}
           text={`x${product.facing_count}`}
-          fontSize={9}
-          fontStyle="italic"
+          fontSize={11}
           fill={textColor}
+          fontFamily="DM Sans"
           align="right"
-          width={20}
+          width={24}
         />
       ) : null}
     </Group>

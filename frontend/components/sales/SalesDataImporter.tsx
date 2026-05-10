@@ -70,28 +70,28 @@ export default function SalesDataImporter({ storeId, onImported }: SalesDataImpo
 
   return (
     <div className="space-y-6">
-      <section className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-sm">
-        <p className="text-sm font-semibold text-[var(--color-text-primary)]">Reporting period</p>
-        <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
+      <section className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+        <p className="text-sm font-medium text-gray-900">Reporting period</p>
+        <p className="mt-1 text-xs text-gray-500">
           This period applies to all rows unless your file includes period_start and period_end columns.
         </p>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <label className="text-sm text-[var(--color-text-secondary)]">
+          <label className="text-sm text-gray-500">
             Period start
             <input
               type="date"
               value={periodStart}
               onChange={(event) => setPeriodStart(event.target.value)}
-              className="mt-2 w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-[var(--color-text-primary)] outline-none focus:border-[var(--color-blue-600)] focus:ring-2 focus:ring-[var(--color-blue-100)]"
+              className="mt-2 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-transparent focus:ring-2 focus:ring-blue-500"
             />
           </label>
-          <label className="text-sm text-[var(--color-text-secondary)]">
+          <label className="text-sm text-gray-500">
             Period end
             <input
               type="date"
               value={periodEnd}
               onChange={(event) => setPeriodEnd(event.target.value)}
-              className="mt-2 w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2 text-[var(--color-text-primary)] outline-none focus:border-[var(--color-blue-600)] focus:ring-2 focus:ring-[var(--color-blue-100)]"
+              className="mt-2 w-full rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-transparent focus:ring-2 focus:ring-blue-500"
             />
           </label>
         </div>
@@ -104,17 +104,17 @@ export default function SalesDataImporter({ storeId, onImported }: SalesDataImpo
         hint="CSV, Excel, or PDF with sku and revenue columns."
       />
 
-      <details className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-5 shadow-sm">
-        <summary className="cursor-pointer text-sm font-semibold text-[var(--color-text-primary)]">
+      <details className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+        <summary className="cursor-pointer text-sm font-medium text-gray-900">
           Format guide
         </summary>
-        <div className="mt-3 text-sm text-[var(--color-text-secondary)]">
+        <div className="mt-3 text-sm text-gray-500">
           <p>Required columns: sku, revenue</p>
           <p className="mt-2">Optional columns: units_sold, period_start, period_end</p>
           <button
             type="button"
             onClick={downloadSample}
-            className="mt-4 rounded-full border border-[var(--color-blue-600)] px-4 py-2 text-xs font-semibold text-[var(--color-blue-600)] transition hover:bg-[var(--color-blue-100)]"
+            className="mt-4 rounded-md border border-blue-600 bg-white px-4 py-2 text-xs font-medium text-blue-600 transition-colors hover:bg-blue-50"
           >
             Download sample CSV
           </button>
@@ -122,7 +122,7 @@ export default function SalesDataImporter({ storeId, onImported }: SalesDataImpo
       </details>
 
       {error ? (
-        <p className="rounded-lg bg-[var(--color-status-red-bg)] px-3 py-2 text-sm text-[var(--color-status-red-text)]">
+        <p className="rounded-md border border-red-200 bg-red-100 px-3 py-2 text-sm text-red-800">
           {error}
         </p>
       ) : null}

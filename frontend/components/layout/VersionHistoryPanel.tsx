@@ -75,53 +75,53 @@ export default function VersionHistoryPanel({
         onClick={onClose}
       />
       <aside
-        className={`absolute right-0 top-0 h-full w-full max-w-sm transform border-l border-[var(--color-border)] bg-[var(--color-bg)] p-6 shadow-2xl transition-transform ${
+        className={`absolute right-0 top-0 h-full w-full max-w-sm transform border-l border-gray-200 bg-white p-6 shadow-md transition-transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-[var(--color-text-secondary)]">History</p>
-            <h3 className="mt-2 text-xl font-semibold text-[var(--color-text-primary)]">
+            <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">History</p>
+            <h3 className="mt-1 text-base font-semibold text-gray-900">
               Planogram Versions
             </h3>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-[var(--color-border)] px-3 py-1 text-sm text-[var(--color-text-secondary)] transition hover:border-[var(--color-blue-600)]"
+            className="rounded-md bg-transparent px-3 py-1.5 text-sm text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800"
           >
             Close
           </button>
         </div>
 
         {error ? (
-          <p className="mt-4 rounded-lg bg-[var(--color-status-red-bg)] px-3 py-2 text-sm text-[var(--color-status-red-text)]">
+          <p className="mt-4 rounded-md border border-red-200 bg-red-100 px-3 py-2 text-sm text-red-800">
             {error}
           </p>
         ) : null}
 
         {loading ? (
-          <p className="mt-6 text-sm text-[var(--color-text-secondary)]">Loading versions...</p>
+          <p className="mt-6 text-sm text-gray-500">Loading versions...</p>
         ) : versions.length === 0 ? (
-          <p className="mt-6 text-sm text-[var(--color-text-secondary)]">No saved versions yet.</p>
+          <p className="mt-6 text-sm text-gray-500">No saved versions yet.</p>
         ) : (
           <div className="mt-6 space-y-3">
             {versions.map((version) => (
-              <div key={version.id} className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] p-4">
+              <div key={version.id} className="rounded-lg border border-gray-200 bg-white p-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-semibold text-[var(--color-text-primary)]">
+                    <p className="text-sm font-medium text-gray-900">
                       Version {version.version_number}
                     </p>
-                    <p className="text-xs text-[var(--color-text-secondary)]">
+                    <p className="text-xs text-gray-500">
                       {new Date(version.created_at).toLocaleString()}
                     </p>
                   </div>
                   <button
                     type="button"
                     onClick={() => void handleRestore(version.id)}
-                    className="rounded-lg border border-[var(--color-blue-600)] px-3 py-2 text-xs font-semibold text-[var(--color-blue-600)] transition hover:bg-[var(--color-blue-100)]"
+                    className="rounded-md border border-blue-600 bg-white px-3 py-2 text-xs font-medium text-blue-600 transition-colors hover:bg-blue-50"
                   >
                     Restore
                   </button>
