@@ -62,6 +62,43 @@ const cloneJson = (planogramJson: PlanogramJson): PlanogramJson => ({
   })),
 });
 
+const normalizePlanogramJson = (planogramJson: PlanogramJson): PlanogramJson => {
+  const shelfWidthCm = planogramJson.shelf_config.shelf_width_cm;
+  const overflowSkus = new Set(planogramJson.overflow_skus ?? []);
+
+  const shelves = planogramJson.shelves.map((shelf) => {
+    const sorted = [...shelf.products].sort((a, b) => a.position_x_cm - b.position_x_cm);
+    let cursor = 0;
+    const nextProducts: PlanogramProduct[] = [];
+
+    for (const product of sorted) {
+      const totalWidth = product.width_cm * product.facing_count;
+      if (cursor + totalWidth > shelfWidthCm) {
+        overflowSkus.add(product.sku);
+        continue;
+      }
+      nextProducts.push({
+        ...product,
+        position_x_cm: cursor,
+        total_width_cm: totalWidth,
+      });
+      cursor += totalWidth;
+    }
+
+    return {
+      ...shelf,
+      products: nextProducts,
+      remaining_width_cm: Math.max(0, shelfWidthCm - cursor),
+    };
+  });
+
+  return {
+    ...planogramJson,
+    shelves,
+    overflow_skus: Array.from(overflowSkus),
+  };
+};
+
 const findShelf = (planogramJson: PlanogramJson, shelfNumber: number): PlanogramShelf | undefined =>
   planogramJson.shelves.find((shelf) => shelf.shelf_number === shelfNumber);
 
@@ -83,8 +120,15 @@ export const usePlanogramStore = create<PlanogramStoreState>((set) => ({
   isSaving: false,
   selectedProductSku: null,
 
-  setPlanogram: (planogram) =>
-    set({ planogram, isDirty: false, isSaving: false, selectedProductSku: null }),
+  setPlanogram: (planogram) => {
+    const normalized = normalizePlanogramJson(planogram.planogram_json);
+    set({
+      planogram: { ...planogram, planogram_json: normalized },
+      isDirty: false,
+      isSaving: false,
+      selectedProductSku: null,
+    });
+  },
 
   clear: () => set({ planogram: null, isDirty: false, isSaving: false, selectedProductSku: null }),
 

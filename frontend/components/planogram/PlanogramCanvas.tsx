@@ -133,10 +133,15 @@ export default function PlanogramCanvas() {
             {sortedShelves.flatMap((shelf, shelfIndex) => {
               const shelfTop = TOP_PADDING + shelfIndex * layout.shelfHeightPx;
               const blockHeight = layout.shelfHeightPx - 8;
+              const shelfLeft = LEFT_GUTTER;
+              const shelfRight = LEFT_GUTTER + layout.drawableWidth;
               return shelf.products.map((product) => {
-                const xPx = LEFT_GUTTER + product.position_x_cm * layout.cmToPx;
+                const rawX = LEFT_GUTTER + product.position_x_cm * layout.cmToPx;
                 const yPx = shelfTop + 4;
                 const widthPx = Math.max(24, product.total_width_cm * layout.cmToPx);
+                const maxX = shelfRight - widthPx;
+                if (maxX < shelfLeft) return null;
+                const xPx = Math.min(Math.max(rawX, shelfLeft), maxX);
                 return (
                   <ProductBlock
                     key={`${shelf.shelf_number}-${product.sku}`}

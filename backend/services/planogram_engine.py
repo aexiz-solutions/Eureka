@@ -367,21 +367,8 @@ def assign_to_shelves(
             facings = min(ranked.suggested_facings, max_facings)
 
         if not placed:
+            # Track overflow SKUs without placing them beyond shelf capacity.
             overflow_skus.append(_safe_sku(ranked.product))
-            last_shelf = shelf_count
-            required = width
-            assignments.append(
-                ShelfAssignment(
-                    shelf_number=last_shelf,
-                    product_id=getattr(ranked.product, "id"),
-                    sku=_safe_sku(ranked.product),
-                    position_x_cm=round(shelf_position[last_shelf], 2),
-                    facing_count=1,
-                    placement_tier=ranked.placement_tier,
-                )
-            )
-            shelf_position[last_shelf] += required
-            shelf_remaining[last_shelf] -= required
 
     return assignments, overflow_skus, shelf_remaining
 
