@@ -307,13 +307,15 @@ export default function StorePlanogramPage() {
             <ProductPanel />
           </aside>
 
-          <section className="flex h-[640px] flex-col gap-3 rounded-3xl border border-ink/10 bg-white/95 p-4 shadow">
+          <section className="flex h-[640px] min-w-0 flex-col gap-3 overflow-hidden rounded-3xl border border-ink/10 bg-white/95 p-4 shadow">
             {loading || !planogram ? (
               <div className="flex h-full items-center justify-center text-sm text-ink/60">
                 Loading planogram...
               </div>
             ) : (
-              <PlanogramCanvas />
+              <div className="flex-1 min-w-0 overflow-hidden">
+                <PlanogramCanvas />
+              </div>
             )}
           </section>
 
