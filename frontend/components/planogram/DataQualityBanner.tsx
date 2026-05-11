@@ -60,7 +60,7 @@ export default function DataQualityBanner({ warnings }: DataQualityBannerProps) 
   }
 
   return (
-    <div className="pointer-events-none fixed left-4 right-4 top-24 z-50 flex flex-col gap-2 sm:left-auto sm:right-6 sm:w-[360px]">
+    <div className="space-y-2">
       {visible.map((warning) => {
         const severity = (warning.severity || "low").toLowerCase();
         const styles = SEVERITY_STYLES[severity] ?? SEVERITY_STYLES.low;
@@ -69,7 +69,7 @@ export default function DataQualityBanner({ warnings }: DataQualityBannerProps) 
         return (
           <div
             key={`${warning.code}-${warning.action_url}`}
-            className={`pointer-events-auto flex items-start justify-between gap-3 rounded-lg border px-4 py-3 text-sm shadow-lg ${styles.container}`}
+            className={`flex items-start justify-between gap-3 rounded-lg border px-4 py-3 text-sm ${styles.container}`}
           >
             <div className="flex min-w-0 items-start gap-3">
               <span

@@ -273,7 +273,7 @@ export default function SuperAdminPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 py-4">
+    <main className="min-h-screen bg-gray-50 px-6 py-4">
       <header className="rounded-lg border border-gray-200 bg-white px-5 py-3 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">

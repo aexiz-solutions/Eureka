@@ -207,7 +207,7 @@ export default function StorePlanogramPage() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <div className="flex w-full flex-col gap-4 py-6">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-6 py-6">
         <header className="h-12 border-b border-gray-200 bg-white px-4">
           <div className="flex h-full flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-4">

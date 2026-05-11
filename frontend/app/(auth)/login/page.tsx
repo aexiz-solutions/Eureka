@@ -72,7 +72,7 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-white py-6">
+    <main className="flex min-h-screen items-center justify-center bg-white p-6">
       <AuthCard
         title="Welcome Back"
         subtitle="Sign in after your onboarding request is approved."
