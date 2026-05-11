@@ -8,8 +8,8 @@ export default function StoreEditPage() {
   const storeId = String(params?.id ?? "");
 
   return (
-    <main className="min-h-screen bg-gray-50 px-6 py-8">
-      <div className="mx-auto max-w-3xl rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+    <main className="min-h-screen bg-gray-50 py-8">
+      <div className="w-full rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
         <h1 className="text-xl font-semibold text-gray-900">Store edit flow is next</h1>
         <p className="mt-1 text-sm text-gray-500">
           Store metadata editing will be added in the next slice. You can continue by updating sales and imports for

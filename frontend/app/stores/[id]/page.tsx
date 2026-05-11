@@ -133,7 +133,7 @@ export default function StoreLandingPage() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-6 py-8">
+      <div className="flex w-full flex-col gap-6 py-8">
         <header className="flex flex-wrap items-center justify-between gap-3">
           <button
             type="button"
