@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import type { PlanogramQualityWarning } from "@/types/planogram";
 
@@ -13,19 +13,19 @@ const SEVERITY_RANK: Record<string, number> = { high: 0, medium: 1, low: 2 };
 
 const SEVERITY_STYLES: Record<string, { container: string; chip: string; label: string }> = {
   high: {
-    container: "border-yellow-200 bg-yellow-50 text-yellow-800",
-    chip: "bg-yellow-100 text-yellow-800",
-    label: "Action required",
+    container: "border-rose-300 bg-rose-50",
+    chip: "bg-rose-200 text-rose-900",
+    label: "Action Required",
   },
   medium: {
-    container: "border-gray-200 bg-white text-gray-900",
-    chip: "bg-yellow-100 text-yellow-800",
-    label: "Warning",
+    container: "border-amber-300 bg-amber-50",
+    chip: "bg-amber-200 text-amber-900",
+    label: "Heads Up",
   },
   low: {
-    container: "border-gray-200 bg-white text-gray-900",
-    chip: "bg-gray-100 text-gray-600",
-    label: "Info",
+    container: "border-slate-200 bg-slate-50",
+    chip: "bg-slate-200 text-slate-700",
+    label: "FYI",
   },
 };
 
@@ -69,21 +69,19 @@ export default function DataQualityBanner({ warnings }: DataQualityBannerProps) 
         return (
           <div
             key={`${warning.code}-${warning.action_url}`}
-            className={`flex items-start justify-between gap-3 rounded-lg border px-4 py-3 text-sm ${styles.container}`}
+            className={`flex items-start gap-3 rounded-2xl border px-4 py-3 ${styles.container}`}
           >
-            <div className="flex min-w-0 items-start gap-3">
-              <span
-                className={`mt-0.5 inline-flex shrink-0 items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${styles.chip}`}
-              >
-                {styles.label}
-              </span>
-              <p className="min-w-0 flex-1">{warning.message}</p>
-            </div>
-            <div className="flex shrink-0 items-center gap-2">
+            <span
+              className={`mt-0.5 inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${styles.chip}`}
+            >
+              {styles.label}
+            </span>
+            <p className="flex-1 text-sm text-ink/90">{warning.message}</p>
+            <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={() => router.push(warning.action_url)}
-                className="rounded-md border border-blue-600 bg-white px-3 py-1 text-xs font-medium text-blue-600 transition-colors hover:bg-blue-50"
+                className="rounded-full border border-ink/20 bg-white px-3 py-1 text-xs font-semibold text-ink transition hover:border-ink/40"
               >
                 {warning.action_label || "Fix"}
               </button>
@@ -97,10 +95,10 @@ export default function DataQualityBanner({ warnings }: DataQualityBannerProps) 
                       return next;
                     })
                   }
-                  className="rounded-md bg-transparent px-2 py-1 text-xs text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+                  className="text-xs text-ink/50 hover:text-ink"
                   aria-label="Dismiss"
                 >
-                  Close
+                  ✕
                 </button>
               ) : null}
             </div>
