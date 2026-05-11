@@ -91,7 +91,7 @@ export default function DataHealthWidget({ storeId, storeName }: DataHealthWidge
       metrics.categories < NEEDS_ATTENTION_THRESHOLD);
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+    <div className="w-full rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
       <div className="flex items-center justify-between">
         <div className="min-w-0">
           <p className="truncate text-sm font-medium text-gray-900">{storeName}</p>

@@ -84,7 +84,7 @@ export default function DashboardPage() {
   return (
     <>
       <main className="min-h-screen bg-gray-50">
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-6 py-8">
+        <div className="flex w-full flex-col gap-6 px-5 py-8">
           <header className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <h1 className="text-xl font-semibold text-gray-900">Dashboard</h1>
@@ -128,85 +128,79 @@ export default function DashboardPage() {
             </div>
           </header>
 
-          <section className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <h2 className="text-base font-semibold text-gray-900">Store hierarchy</h2>
-                <p className="mt-0.5 text-sm text-gray-500">
-                  Country, state, city, and locality. Click a store to open its planogram workspace.
-                </p>
+          <div className="flex w-full flex-col gap-4">
+            <section className="w-full rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <h2 className="text-base font-semibold text-gray-900">Store hierarchy</h2>
+                  <p className="mt-0.5 text-sm text-gray-500">
+                    Country, state, city, and locality. Click a store to open its planogram workspace.
+                  </p>
+                </div>
+                <span className="text-sm text-gray-500">
+                  {storesLoading
+                    ? "Loading..."
+                    : `${stores.length} ${stores.length === 1 ? "store" : "stores"}`}
+                </span>
               </div>
-              <span className="text-sm text-gray-500">
-                {storesLoading
-                  ? "Loading..."
-                  : `${stores.length} ${stores.length === 1 ? "store" : "stores"}`}
-              </span>
-            </div>
 
-            {error ? (
-              <p className="mt-4 rounded-md border border-red-200 bg-red-100 px-3 py-2 text-sm text-red-800">
-                {error}
-              </p>
-            ) : null}
+              {error ? (
+                <p className="mt-4 rounded-md border border-red-200 bg-red-100 px-3 py-2 text-sm text-red-800">
+                  {error}
+                </p>
+              ) : null}
 
-            <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(280px,1fr)_minmax(280px,1fr)]">
-              <div className="max-h-[480px] overflow-y-auto">
+              <div className="mt-4 max-h-[480px] overflow-y-auto">
                 <HierarchyTree
                   stores={stores}
                   selectedStoreId={selectedStoreId}
                   onSelectStore={(storeId) => setSelectedStoreId(storeId)}
                 />
               </div>
+            </section>
 
-              <div className="space-y-3">
-                {selectedStore ? (
-                  <>
-                    <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="min-w-0">
-                          <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-                            Selected store
-                          </p>
-                          <p className="mt-1 truncate text-base font-semibold text-gray-900">
-                            {selectedStore.display_name ?? selectedStore.raw_name}
-                          </p>
-                          <p className="mt-1 text-xs text-gray-500">
-                            {[
-                              selectedStore.locality,
-                              selectedStore.city,
-                              selectedStore.state,
-                              selectedStore.country,
-                            ]
-                              .filter(Boolean)
-                              .join(", ") || "Location unknown"}
-                          </p>
-                          {selectedStore.store_type ? (
-                            <p className="mt-1 text-xs text-gray-500">Type: {selectedStore.store_type}</p>
-                          ) : null}
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => router.push(`/stores/${selectedStore.id}`)}
-                          className="rounded-md bg-blue-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-blue-700"
-                        >
-                          Open store
-                        </button>
-                      </div>
+            {selectedStore ? (
+              <>
+                <div className="w-full rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+                        Selected store
+                      </p>
+                      <p className="mt-1 truncate text-base font-semibold text-gray-900">
+                        {selectedStore.display_name ?? selectedStore.raw_name}
+                      </p>
+                      <p className="mt-1 text-sm text-gray-500">
+                        {[
+                          selectedStore.locality,
+                          selectedStore.city,
+                          selectedStore.state,
+                          selectedStore.country,
+                        ]
+                          .filter(Boolean)
+                          .join(", ") || "Location unknown"}
+                      </p>
+                      {selectedStore.store_type ? (
+                        <p className="mt-1 text-sm text-gray-500">Type: {selectedStore.store_type}</p>
+                      ) : null}
                     </div>
-
-                    <DataHealthWidget
-                      storeId={selectedStore.id}
-                      storeName={selectedStore.display_name ?? selectedStore.raw_name}
-                    />
-                  </>
-                ) : (
-                  <div className="rounded-lg border border-dashed border-gray-200 bg-white p-6 text-sm text-gray-500">
-                    Click a store in the hierarchy to see details and data health.
+                    <button
+                      type="button"
+                      onClick={() => router.push(`/stores/${selectedStore.id}`)}
+                      className="whitespace-nowrap rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
+                    >
+                      Open store
+                    </button>
                   </div>
-                )}
-              </div>
-            </div>
-          </section>
+                </div>
+
+                <DataHealthWidget
+                  storeId={selectedStore.id}
+                  storeName={selectedStore.display_name ?? selectedStore.raw_name}
+                />
+              </>
+            ) : null}
+          </div>
         </div>
       </main>
       <NewStoreModal

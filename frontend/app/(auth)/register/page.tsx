@@ -79,7 +79,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-white p-6">
+    <main className="flex min-h-screen items-center justify-center bg-white px-5 py-6">
       <AuthCard
         title="Sign Up"
         subtitle="Register your workspace. Admin approval is required before first login."

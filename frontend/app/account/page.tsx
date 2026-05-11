@@ -81,7 +81,7 @@ export default function AccountPage() {
 
   if (!user) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-gray-50 p-6">
+      <main className="flex min-h-screen items-center justify-center bg-gray-50 px-5 py-6">
         <section className="w-full max-w-lg rounded-lg border border-gray-200 bg-white p-6 text-center shadow-sm">
           <h1 className="text-xl font-semibold text-gray-900">Account</h1>
           <p className="mt-2 text-sm text-gray-500">
@@ -102,7 +102,7 @@ export default function AccountPage() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-6 py-8">
+      <div className="flex w-full flex-col gap-6 px-5 py-8">
       <header className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
         <h1 className="text-xl font-semibold text-gray-900">Plan: {planLabel}</h1>
         <p className="mt-1 text-sm text-gray-500">{planInfo.summary}</p>
